@@ -20,4 +20,4 @@ I have learned how to use a open-source Markup Language. I have used VS code to 
 
 ### Results
 I have made a md File with the VS code editor.  
-![Markdown](../00_includes/Week1MarkDown.png)
+![Markdown](../00_includes/Week1Markdown.png)
