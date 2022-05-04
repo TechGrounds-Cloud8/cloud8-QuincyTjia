@@ -16,7 +16,7 @@ With this excercise I learned how to add users to a specific group and how to gi
 - https://www.w3cschoool.com/linux-create-user
 - https://linuxize.com/post/how-to-list-users-in-linux/
 - https://www.ssh.com/academy/iam/user/root#:~:text=Root%20is%20the%20superuser%20account,account%2C%20regardless%20of%20the%20name.
--https://www.youtube.com/watch?v=7d_4b7uZTtk&t=562s 
+- https://www.youtube.com/watch?v=7d_4b7uZTtk&t=562s 
 
 ### Overcome challenges
 - It took quite a while to work on this excercise. I had some trouble with finding the right solution, but after watching a video and with help from my collegues I managed to work it out. 
