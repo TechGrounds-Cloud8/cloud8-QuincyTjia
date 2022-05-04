@@ -20,6 +20,7 @@ With this excercise I learned how to add users to a specific group and how to gi
 
 ### Overcome challenges
 - It took quite a while to work on this excercise. I had some trouble with finding the right solution, but after watching a video and with help from my collegues I managed to work it out. 
+- I later found out by my collegues that there is also a seperate sudo group, found bij using id quincy 
 ### Results
 - I used the sudo useradd command to add a new user.
 - I used the sudo passwd command change the password for the user.
