@@ -29,3 +29,4 @@ With this excercise I learned how to add users to a specific group and how to gi
 ![LIN04](../00_includes/LIN04-1.png)
 ![LIN04](../00_includes/LIN04-2.png)
 ![LIN04](../00_includes/LIN04-3.png)
+![LIN04](../00_includes/LIN04-4.png)
