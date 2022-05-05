@@ -10,6 +10,7 @@ With this excercise I learned what kind of processes there are within Linux. I l
 - sudo apt install telnetd -y command: this installs the telnet service (daemon)
 - sudo systemctl status inetd command: You can check the status of the process.
 - kill (PIP): this stops the process
+- top: Check memory usage for all processes
 
 ## Exercise
 ### Sources
@@ -29,7 +30,9 @@ With this excercise I learned what kind of processes there are within Linux. I l
 - The PID of the Telnet Deamon is 6568.
 - The amount of memory telnet is using is 892.0K
 - After i looked this information up I stopped the telnet process using the sudo kill 6568 commmand.
+- Used top to see if the process was stopped. You do not see the PIP number anymore, so it has stopped.
 
 ![LIN06](../00_includes/LIN06-1.png)
 ![LIN06](../00_includes/LIN06-2.png)
 ![LIN06](../00_includes/LIN06-3.png)
+![LIN06](../00_includes/LIN06-4.png) 
