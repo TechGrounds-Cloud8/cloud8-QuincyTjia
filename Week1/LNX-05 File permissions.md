@@ -9,6 +9,7 @@ With this excercise I learned how to give and remove certain permissions for use
 - chmod (change mode): With this command you can change te permissions for a user for a file. 
 - chmod g-rw: With this command you can remove the r an w permissions for the group for a file.
 - chmod o-rw: With this command you can remove the permissions r and w for others for a file.
+- chown: Change owner of a file
 
 ## Exercise
 ### Sources
