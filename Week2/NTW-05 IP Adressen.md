@@ -1,74 +1,38 @@
 # NTW-05 IP Adressen
-With this excercise I learned what  protocols are and how the different protocols are used on every layer of the OSI stack. I also learned who determines the protocols and what is needed to introduce one of your own. And finally I learned how to install wireshark on my local computer and capture a bit of network data.    
 
 ## Key terminology
-- Network protocol: A network protocol is an established set of rules that determine how data is transmitted between different devices in the same network. 
-- Wireshark: Wireshark is the world’s foremost and widely-used network protocol analyzer. It lets you see what’s happening on your network at a microscopic level and is the de facto (and often de jure) standard across many commercial and non-profit enterprises, government agencies, and educational institutions.  
-- Ethernet (IEEE 802.2) protocol: the specification for Ethernet network media.
-- Token Ring: 
-- RS-232: The specification for standard pin connectors.
-- PPP (Point-to-Point Protocol): Point-to-Point Protocol (PPP) is a TCP/IP protocol that is used to connect one computer system to another. Computers use PPP to communicate over the telephone network or the Internet.
-- IP (internet protocol): The Internet Protocol (IP) is a set of requirements for addressing and routing data on the Internet. IP can be used with several transport protocols, including TCP and UDP.   
-- ARP (Address Resolution Protocol): Address Resolution Protocol (ARP) is a protocol or procedure that connects an ever-changing Internet Protocol (IP) address to a fixed physical machine address, also known as a media access control (MAC) address, in a local-area network (LAN).  
-- ICMP (Internet Control Message Protocol): The Internet Control Message Protocol is used to diagnose network issues over the Internet.
-- TCP (Transmission Control Protocol): A communications standard that enables application programs and computing devices to exchange messages over a network. It is designed to send packets across the internet and ensure the successful delivery of data and messages over networks.
-- UDP (User Datagram Protocol): This is a communication protocol used across the Internet for especially time-sensitive transmissions such as video playback or DNS lookups. It speeds up communications by not formally establishing a connection before data is transferred.  
-- NFS (Network File System): This file system protocol allows a user on a client computer to access files over a network in the same way they would access a local storage file.  
-- DNS (Domain Name System): DNS lets users connect to websites using domain names instead of IP addresses.   
-- telnet: The Telnet Protocol (TELNET) provides a standard method for terminal devices and terminal-oriented processes to interface. TELNET is commonly used by terminal emulation programs that allow you to log into a remote host. 
-- ftp (File Transfer Protocol): FTP (File Transfer Protocol) is used to communicate and transfer files between computers on a TCP/IP (Transmission Control Protocol/Internet Protocol) network, aka the internet. Users, who have been granted access, can receive and transfer files in the File Transfer Protocol server (also known as FTP host/site).   
-- rlogin: The rlogin (remote login) program was a tool for remotely using a computer over a network. It could be used to get a command-line on a remote computer.  
+- IP Address: An IP address is a unique address that identifies a device on the internet or a local network. IP stands for "Internet Protocol," which is the set of rules governing the format of data sent via the internet or local network. In essence, IP addresses are the identifier that allows information to be sent between devices on a network: they contain location information and make devices accessible for communication. 
+- IPv4 Address: Basically this means that it is the fourth version of the internet protocil. IP (version 4) addresses are 32-bit integers that can be expressed in hexadecimal notation. The more common format, known as dotted quad or dotted decimal, is x.x.x.x, where each x can be any value between 0 and 255. For example, 192.0.2.146 is a valid IPv4 address.  
+- IPv6 Address: This is the 6th version of the Internet Protocol. An IPv6 address is 128 bits long and is arranged in eight groups, each of which is 16 bits. Each group is expressed as four hexadecimal digits and the groups are separated by colons. 
+- whois-check: Whois is a widely used Internet record listing that identifies who owns a domain and how to get in contact with them. The Internet Corporation for Assigned Names and Numbers (ICANN) regulates domain name registration and ownership. 
+- Public IP Address: A public IP address is an IP address that can be accessed directly over the internet and is assigned to your network router by your internet service provider (ISP). Your personal device also has a private IP that remains hidden when you connect to the internet through your router’s public IP.
+- Private IP Address: A private IP address is the address your network router assigns to your device. Each device within the same network is assigned a unique private IP address (sometimes called a private network address) — this is how devices on the same internal network talk to each other. 
+- NAT-table: The network address translation (NAT) table is what allows devices on a private network to access a public network, such as the internet.
+There is often only one entry point between the public network and the private network, and that entry point is usually a router. The router itself has a public-facing IP address, but the devices on the private network ("hidden" behind the router) only have private IP addresses.
+When data packets move from the private network to the public network, those private IP addresses need to be "translated" into a public IP address that's compatible with the public network. Same for data packets coming in from public network to private network. 
+- Static Address: A static IP address is simply an address that doesn't change. Once your device is assigned a static IP address, that number typically stays the same until the device is decommissioned or your network architecture changes. Static IP addresses generally are used by servers or other important equipment.  
+- Dynamic Address: As the name suggests, dynamic IP addresses are subject to change, sometimes at a moment's notice. Dynamic addresses are assigned, as needed, by Dynamic Host Configuration Protocol (DHCP) servers. We use dynamic addresses because IPv4 doesn't provide enough static IP addresses to go around. So, for example, a hotel probably has a static IP address, but each individual device within its rooms would have a dynamic IP address.  
 
 ## Exercise
 ### Sources
-- https://docs.oracle.com/cd/E19683-01/806-4075/ipov-10/index.html 
-- https://www.ibm.com/docs/en/i/7.2?topic=concepts-what-is-ppp 
-- https://www.cloudflare.com/learning/network-layer/internet-protocol/ 
-- https://www.fortinet.com/resources/cyberglossary/what-is-arp 
-- https://www.cloudflare.com/learning/ddos/glossary/internet-control-message-protocol-icmp/ 
-- https://www.fortinet.com/resources/cyberglossary/tcp-ip#:~:text=TCP%20stands%20for%20Transmission%20Control,data%20and%20messages%20over%20networks. 
-- https://www.cloudflare.com/learning/ddos/glossary/user-datagram-protocol-udp/ 
-- https://www.extrahop.com/resources/protocols/nfs/ 
-- https://www.cloudflare.com/learning/dns/what-is-dns/ 
-- https://www.ibm.com/docs/en/aix/7.1?topic=protocols-telnet-protocol 
-- https://www.hostinger.com/tutorials/what-is-ftp 
-- https://www.ssh.com/academy/ssh/rlogin 
-- https://www.comptia.org/content/guides/what-is-a-network-protocol 
-- https://www.internetx.com/en/news-detailview/who-creates-the-standards-and-protocols-for-the-internet/ 
-- https://www.wireshark.org/ 
+- https://www.kaspersky.com/resource-center/definitions/what-is-an-ip-address 
+- https://bluecatnetworks.com/glossary/what-is-ipv4/ 
+- https://www.techtarget.com/iotagenda/definition/IPv6-address 
+- https://www.domaintools.com/support/what-is-whois-information-and-why-is-it-valuable# 
+- https://www.avast.com/c-ip-address-public-vs-private#:~:text=A%20public%20IP%20address%20is,through%20your%20router's%20public%20IP. 
+- https://www.makeuseof.com/tag/what-is-nat-table/#:~:text=The%20network%20address%20translation%20(NAT,point%20is%20usually%20a%20router. 
+- https://www.avast.com/c-static-vs-dynamic-ip-addresses#:~:text=A%20static%20IP%20address%20is,servers%20or%20other%20important%20equipment. 
+- 
 
 ### Overcome challenges
-- At first I had to find the different protocols that are used on every layer. 
-- I then explained them in one or two sentences.
-- After that I had to find out who determines the protocols we use. 
-- After that I had to find out how to introduce my own protocol. 
-- I had to find out what wireshark is and after that I had to find out how to install it. 
-- I was confused how to install it, because in the excercise it says to use your VM but it should be your local machine. I knew this after Casper answered the question. 
-- I needed to search a bit more of the IP protocol to try to understand it better. 
+- At first I had to find out what all the kery terminology mean.
+- I then had to find out what the difference is between a Public and Private IP Address.
+- 
 
 ### Results
-- Protocols on each layer:
-    1. Physical: Ethernet (IEEE 802.2), Token Ring, RS-232
-    2. Data Link: PPP, IEEE 802.2
-    3. IP, ARP, ICMP
-    4. TCP, UDP
-    5. NFS, NIS+, DNS, telnet, ftp, rlogin
-    6. Same as 5        
-    7. Same as 5 + 6
+- The difference between Public and Private IP addresses: The main difference between public and private IP addresses is how far they reach, and what they’re connected to. A public IP address identifies you to the wider internet so that all the information you’re searching for can find you. A private IP address is used within a private network to connect securely to other devices within that same network. 
 
-- You can read at the terminology part the function discription of the protocols.
-
-- Who determines the protocols we use?
-    - Since the rise of the global internet, technical experts, academics and policy-makers have come together under the roof of organisations that can ensure the interoperability of the internet. Organisations who determines or ensure protocols are: World Wide Web Consortium (W3C), Telecommunication Standardization Sector (ITU-T), Internet Architecture Board (IAB), Internet Society (ISOC), IETF, IRTF, IEEE, ICANN, IANA.   
-
-- What is needed to introduce your own protocol?
-    - You can vote on certain proposition protocols which are created at the IETF (Internet Engineering Task Force). You can also make a RFC (Request For Comments) for a new protocol you have created. It wil then be reviewed by others (peers).
-    
-- I installed wireshark and captured a bit of network data, the screenshot is below. 
-
-- The protocol I already knew by name is ofcourse the IP protocol. I already explained what it (in basic) does. I looked some more into it to try to understand it better.
-
-![NTW-03](../00_includes/NTW03-1.png)
+![NTW-05](../00_includes/NTW05-1.png)
 
 
  
