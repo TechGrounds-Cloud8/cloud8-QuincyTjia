@@ -1,4 +1,4 @@
-# NTW-03 Protocols
+# NTW-05 IP Adressen
 With this excercise I learned what  protocols are and how the different protocols are used on every layer of the OSI stack. I also learned who determines the protocols and what is needed to introduce one of your own. And finally I learned how to install wireshark on my local computer and capture a bit of network data.    
 
 ## Key terminology
