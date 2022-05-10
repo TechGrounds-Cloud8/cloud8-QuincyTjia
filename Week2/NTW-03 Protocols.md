@@ -1,8 +1,9 @@
 # NTW-03 Protocols
-With this excercise I learned what  protocols are and how the different protocols are used on every layer of the OSI stack.    
+With this excercise I learned what  protocols are and how the different protocols are used on every layer of the OSI stack. I also learned who determines the protocols and what is needed to introduce one of your own. And finally I learned how to install wireshark on my local computer and capture a bit of network data.    
 
 ## Key terminology
 - Network protocol: A network protocol is an established set of rules that determine how data is transmitted between different devices in the same network. 
+- Wireshark: Wireshark is the world’s foremost and widely-used network protocol analyzer. It lets you see what’s happening on your network at a microscopic level and is the de facto (and often de jure) standard across many commercial and non-profit enterprises, government agencies, and educational institutions.  
 - Ethernet (IEEE 802.2) protocol: the specification for Ethernet network media.
 - Token Ring: 
 - RS-232: The specification for standard pin connectors.
@@ -34,13 +35,17 @@ With this excercise I learned what  protocols are and how the different protocol
 - https://www.ssh.com/academy/ssh/rlogin 
 - https://www.comptia.org/content/guides/what-is-a-network-protocol 
 - https://www.internetx.com/en/news-detailview/who-creates-the-standards-and-protocols-for-the-internet/ 
--  
+- https://www.wireshark.org/ 
+
 ### Overcome challenges
 - At first I had to find the different protocols that are used on every layer. 
 - I then explained them in one or two sentences.
 - After that I had to find out who determines the protocols we use. 
 - After that I had to find out how to introduce my own protocol. 
--  
+- I had to find out what wireshark is and after that I had to find out how to install it. 
+- I was confused how to install it, because in the excercise it says to use your VM but it should be your local machine. I knew this after Casper answered the question. 
+- I needed to search a bit more of the IP protocol to try to understand it better. 
+
 ### Results
 - Protocols on each layer:
     1. Physical: Ethernet (IEEE 802.2), Token Ring, RS-232
@@ -54,9 +59,15 @@ With this excercise I learned what  protocols are and how the different protocol
 - You can read at the terminology part the function discription of the protocols.
 
 - Who determines the protocols we use?
-    - Since the rise of the global internet, technical experts, academics and policy-makers have come together under the roof of organisations that can ensure the interoperability of the internet. 
+    - Since the rise of the global internet, technical experts, academics and policy-makers have come together under the roof of organisations that can ensure the interoperability of the internet. Organisations who determines or ensure protocols are: World Wide Web Consortium (W3C), Telecommunication Standardization Sector (ITU-T), Internet Architecture Board (IAB), Internet Society (ISOC), IETF, IRTF, IEEE, ICANN, IANA.   
 
-![NTW-01](../00_includes/NTW01-1.png)
+- What is needed to introduce your own protocol?
+    - Need to do it!
+
+- I installed wireshark and captured a bit of network data, the screenshot is below. 
+- The protocol I already knew by name is ofcourse the IP protocol. I already explained what it (in basic) does. I looked some more into it to try to understand it better.
+
+![NTW-03](../00_includes/NTW03-1.png)
 
 
  
