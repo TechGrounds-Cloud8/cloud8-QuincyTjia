@@ -1,5 +1,5 @@
 # NTW-02 Network Devices
-With this excercise I learned what the OSI and TCP/PI models mean and the uses of it. I also learned the differences between the two.    
+With this excercise I learned which Network devices exist and on which OSI layer they are used. I also learned how to access the router settings of my own network.      
 
 ## Key terminology
 - Network Devices: These are physical devices that are required for communication and interaction between hardware on a computer network. 
@@ -12,6 +12,7 @@ With this excercise I learned what the OSI and TCP/PI models mean and the uses o
 - Access point: An Access Point (AP) is commonly (not always) a wireless device. It operates either as a bridge connecting a standard wired network to wireless devices or as a router passing data from on AP to another. An access point is a device that creates a wireless local area network (WLAN).   
 - Gateway: Gateways provide translation between networking technologies such as Open System Interconnection (OSI) and Transmission Control Protocol/Internet Protocol (TCP/IP). 
 - Modem: Modems (modulators-demodulators) are used to transmit digital signals over analog telephone lines. 
+- DHCP server: Dynamic Host Configuration Protocol (DHCP) is a client/server protocol that automatically provides an Internet Protocol (IP) host with its IP address and other related configuration information such as the subnet mask and default gateway.  
 
 ## Exercise
 ### Sources
@@ -21,12 +22,13 @@ With this excercise I learned what the OSI and TCP/PI models mean and the uses o
 - https://www.netwerkkabel.eu/nl/blogs/blog/wat-is-ethernet/ 
 - https://www.cisco.com/c/en/us/products/switches/what-is-a-lan-local-area-network.html 
 - https://www.comptia.org/content/guides/what-is-a-wide-area-network 
--
+
 ### Overcome challenges
 - At first I had to find out at which layers which devices are used. After that I had to find out what the different devices are and what they do.
 - I had to found out what my IP-address is.
-- I couldn't login to the IP address website.
-- 
+- I couldn't login to my router configuration settings. This problem occured because I don't have the login data. My landlord has all the login data because my router is connected to a larger network of multible routers.
+- I then had to found out what I should see if I could login, I did this via my teammates.
+
 ### Results
 - Devices used at the different layers: 
 
@@ -37,9 +39,11 @@ With this excercise I learned what the OSI and TCP/PI models mean and the uses o
     5. Gateway
 
 - You can read at the terminology part the function discription of the devices.
-- 
+- I couldn't login as described at overcome challenges. But I have a image of my IP address. 
+- Normally you then have to type in your IP address (127.23.6.106) in your browser to login and then you are in your router settings. 
+- If you go to settings you can see your DHCP configurations normally.
 
-![NTW-01](../00_includes/NTW01-1.png)
+![NTW-02](../00_includes/NTW02-1.png)
 
 
  
