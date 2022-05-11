@@ -40,7 +40,7 @@ With this excercise I learned which Network devices exist and on which OSI layer
 
 - You can read at the terminology part the function discription of the devices.
 - I couldn't login as described at overcome challenges. But I have a image of my IP address. 
-- Normally you then have to type in your IP address (127.23.6.106) in your browser to login and then you are in your router settings. 
+- Normally you then have to type in your IP addres in your browser to login and then you are in your router settings. 
 - If you go to settings you can see your DHCP configurations normally.
 
 ![NTW-02](../00_includes/NTW02-1.png)

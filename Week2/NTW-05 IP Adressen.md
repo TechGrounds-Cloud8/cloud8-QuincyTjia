@@ -1,4 +1,5 @@
 # NTW-05 IP Adressen
+With this excercise I learned what IP Addresses are and what the difference is between a Public and a Private IP Address. AFter that I also learned how to change your Private IP Address on your mobile phone.
 
 ## Key terminology
 - IP Address: An IP address is a unique address that identifies a device on the internet or a local network. IP stands for "Internet Protocol," which is the set of rules governing the format of data sent via the internet or local network. In essence, IP addresses are the identifier that allows information to be sent between devices on a network: they contain location information and make devices accessible for communication. 
@@ -22,15 +23,26 @@ When data packets move from the private network to the public network, those pri
 - https://www.avast.com/c-ip-address-public-vs-private#:~:text=A%20public%20IP%20address%20is,through%20your%20router's%20public%20IP. 
 - https://www.makeuseof.com/tag/what-is-nat-table/#:~:text=The%20network%20address%20translation%20(NAT,point%20is%20usually%20a%20router. 
 - https://www.avast.com/c-static-vs-dynamic-ip-addresses#:~:text=A%20static%20IP%20address%20is,servers%20or%20other%20important%20equipment. 
-- 
+- https://www.purevpn.com/blog/change-ip-address-android-devices/ 
 
 ### Overcome challenges
 - At first I had to find out what all the kery terminology mean.
 - I then had to find out what the difference is between a Public and Private IP Address.
-- 
+- I then had to find out my Public and Private IP addresses for my mobile and laptop.
+- I then had to search on how to change your IP address on your mobile phone.
 
 ### Results
 - The difference between Public and Private IP addresses: The main difference between public and private IP addresses is how far they reach, and what they’re connected to. A public IP address identifies you to the wider internet so that all the information you’re searching for can find you. A private IP address is used within a private network to connect securely to other devices within that same network. 
+
+- What is my public and private IP on mobile and laptop? 84.106.100.87, they are both the same for my mobile and laptop. This is because you are connected to the same public network. 
+
+- My private IP addresses on mobile and laptop: These two are not the same, this is because every device on your own network have a different Private IP Address. 
+
+- Change the Private IP on my mobile to the Private one on your laptop, what happens?
+The Private IP from my laptop changes, but first the internet went very weird and slow on both my devices.
+
+- Change the Private IP from your mobile to a IP Address outside my network, what happens?
+It then said: Connected without internet.
 
 ![NTW-05](../00_includes/NTW05-1.png)
 
