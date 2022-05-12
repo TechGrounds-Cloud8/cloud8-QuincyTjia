@@ -19,14 +19,19 @@ With this excercise I learned what Firewalls are and what type of Firewalls exis
 ### Sources
 - https://www.forcepoint.com/cyber-edu/firewall 
 - https://www.cdw.com/content/cdw/en/articles/security/stateful-versus-stateless-firewalls.html#:~:text=Stateful%20firewalls%20are%20capable%20of,preset%20rules%20to%20filter%20traffic. 
+- https://ubuntu.com/tutorials/install-and-configure-apache#1-overview 
+- https://httpd.apache.org/docs/2.4/ 
 - 
 ### Overcome challenges
 - First I had to search what excactly a firewall is and which types there are.
-- AFter that I needed to search how to install a webserver on my Linux machine.
+- AFter that I needed to search how to install a webserver on my Linux machine. I found out that Apache2 already was installed.
+- I didn't remember how to start the server so I had to google that.
+- After that I had to google how to reach the webserver by internet.
 - 
 
 ### Results
--
+- I started the apache2 webserver en checked if it was up and running.
+- 
 
 ![SEC-01](../00_includes/SEC01-1.png)
 
