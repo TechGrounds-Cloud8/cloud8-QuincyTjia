@@ -48,6 +48,6 @@ OSI is more practical to use for troubleshooting because of its extra layers.
 - I know the difference between the two models and what are the uses of them.
 
 ![NTW-01](../00_includes/NTW01-1.png)
-
+![NTW-01](../00_includes/NTW01-2.png)
 
  
