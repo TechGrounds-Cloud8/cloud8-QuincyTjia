@@ -1,5 +1,5 @@
 # SEC-04 Symmetric Encryption
-With this excercise I learned what symmetric encryption means and how it works. I also learned how to encrypt and decrypt a simple message.  
+With this excercise I learned what symmetric encryption means and how it works.  
 
 ## Key terminology
 - Encryption: Encryption is a way to conceal information by altering it so that it appears to be random data. Encryption is essential for security on the Internet. In technical terms, it is the process of converting human-readable plaintext to incomprehensible text, also known as ciphertext. In simpler terms, encryption takes readable data and alters it so that it appears random. Encryption requires the use of a cryptographic key: a set of mathematical values that both the sender and the recipient of an encrypted message agree on. 
@@ -37,8 +37,7 @@ You are not allowed to use any private messages or other communication channels 
 - I first had to search for all the key terminology and understand what they mean.
 - After that I had to find for two more historic ciphers.
 - Then I had to find two digital ciphers which are used nowadays. 
-- I had to study how the Caesar methode cipher works and use it to encrypt a message.
-- 
+- I had to find a way to share a key with someone but not via slack or private messages. 
 
 ### Results
 -  Two historic ciphers:
@@ -53,7 +52,9 @@ You are not allowed to use any private messages or other communication channels 
 
     2. AES: Advanced Encryption Standard (AES) is a specification for the encryption of electronic data established by the U.S National Institute of Standards and Technology (NIST) in 2001. AES is widely used today as it is a much stronger than DES and triple DES despite being harder to implement.  
 
-- 
+- Send a symmetrically encrypted message to one of your peers via the public Slack channel. They should be able to decrypt the message using a key you share with them. Try to think of a way to share this encryption key without revealing it to everyone. 
+
+    - I quickly found out that it is very hard to do this. The person needs the key to decrypt the message, but if you put it somewhere on the internet (via slack for instance) it is a public key and it is leaked. Everybody can find the key then. So a way of giving a key to someone is to meet the person in real life and give the key on a paper, or say the key bij spoken word. This is the way they did it in past but it is still highly risky. You can lose the paper or someone will get the key out of you.
 
 
 Advantages vs Disadvantages of using a Caesar cipher
