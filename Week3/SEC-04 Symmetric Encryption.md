@@ -32,7 +32,10 @@ You are not allowed to use any private messages or other communication channels 
 - https://www.secplicity.org/2017/05/25/historical-cryptography-ciphers/ 
 - https://www.comparitech.com/blog/information-security/famous-codes-and-ciphers-through-history-and-their-role-in-modern-encryption/#:~:text=of%20the%20algorithm.-,Modern%20Ciphers,at%20processing%20data%20using%20algorithms
 - https://www.geeksforgeeks.org/rsa-algorithm-cryptography/ 
-- 
+- https://www.youtube.com/watch?v=NmM9HA2MQGI 
+- https://cryptotools.net/dhe 
+- https://www.comparitech.com/blog/information-security/diffie-hellman-key-exchange/ 
+
 ### Overcome challenges
 - I first had to search for all the key terminology and understand what they mean.
 - After that I had to find for two more historic ciphers.
@@ -54,7 +57,10 @@ You are not allowed to use any private messages or other communication channels 
 
 - Send a symmetrically encrypted message to one of your peers via the public Slack channel. They should be able to decrypt the message using a key you share with them. Try to think of a way to share this encryption key without revealing it to everyone. 
 
-    - I quickly found out that it is very hard to do this. The person needs the key to decrypt the message, but if you put it somewhere on the internet (via slack for instance) it is a public key and it is leaked. Everybody can find the key then. So a way of giving a key to someone is to meet the person in real life and give the key on a paper, or say the key bij spoken word. This is the way they did it in past but it is still highly risky. You can lose the paper or someone will get the key out of you.
+    - I quickly found out that it is very hard to do this. The person needs the key to decrypt the message, but if you put it somewhere on the internet (via slack for instance) it is a public key and it is leaked. Everybody can find the key then. So a way of giving a key to someone is to meet the person in real life and give the key on a paper, or say the key by spoken word. This is the way they did it in past but it is still highly risky. You can lose the paper or someone will get the key out of you.
+
+
+    - There is a method however to do it save. This method is called the Diffie-Hellman Secret Key Exchange. The two people who want to communicate with eachother will share a secret key with eachother. This is how it works (see video and website links for further explanation): To share secret messages with eachother which no one can and must see, you don't want to share your (asymmetric) key on the internet. This can leak and people then can read your messages. To do this in secret, you have to generate a key pair, a public one and a private one. The public one you can share on the internet because it is public. So what the Diffie-Hellman method does is, it makes from a public key (from the person you want to share secrets with) and your own private key, a new Secret Shared key. On the website (link) you then can both see this secret key on your own computer and then you can use this secret key to sent messages to eachother. You don't want to put this key on public channels, keep it safe. For further explanation, see the websites and video. 
 
 
 Advantages vs Disadvantages of using a Caesar cipher
