@@ -41,7 +41,8 @@ Study:
 - https://www.programmingtrends.com/2020/05/capital-expenditure-capex-versus.html 
 - https://www.investopedia.com/terms/t/totalcostofownership.asp 
 - https://docs.aws.amazon.com/pricing-calculator/latest/userguide/what-is-pricing-calculator.html 
-
+- https://capiche.com/q/what-does-the-aws-free-tier-include
+ 
 ### Overcome challenges
 - I had to search the key terminology.
 - I had to study the AWS pricing model
