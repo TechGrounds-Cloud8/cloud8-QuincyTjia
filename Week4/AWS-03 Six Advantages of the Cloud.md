@@ -19,16 +19,15 @@ Study
 ### Results
 - The six advantages of cloud computing as told by AWS.
 
-    1. Trade Capital expense (CapEx) for variable expense (OpEx):  Instead of having to invest heavily in data centers and servers before you know how you’re going to use them, you can pay only when you consume computing resources, and pay only for how much you consume. 
+    1. Trade Capital expense (CapEx) for variable expense (OpEx): Normally you have to invest in new data centers or servers beforehand. You will spend money but don't know how it works yet and how you will use it. With cloud computing you don't have to invest a lot of money beforehand but you can pay only for the resources you consume. 
 
-    2. Benefit from massive economies of scale: By using cloud computing, you can achieve a lower variable cost than you can get on your own. Because usage from hundreds of thousands of customers is aggregated in the cloud, providers such as AWS can achieve higher economies of scale, which translates into lower pay as-you-go prices.  
+    2. Benefit from massive economies of scale: Because AWS is used by many users and companies around the world, it becomes cheaper to use for the consumers. It's a lot cheaper to use it in this way then on your own. 
 
-    3. Stop guessing capacity: Eliminate guessing on your infrastructure capacity needs. When you make a capacity decision prior to deploying an application, you often end up either sitting on expensive idle resources or dealing with limited capacity. With cloud computing, these problems go away. You can access as much or as little capacity as you need, and scale up and down as required with only a few minutes’ notice. 
+    3. Stop guessing capacity: Normally with physical servers etc. you need to guess beforehand how much capacity you will need for the upcoming year or month. In this way you sometimes have paid to much for the capacity wich is used or you have to little capacity. You can't change this during this period, or if you do, it takes a lot of time. With cloud computing you can change the capacity whenever you need it and it takes only a few minutes. 
 
-    4. Increase speed and agility: In a cloud computing environment, new IT resources are only a click away, which means that you reduce the time to make those resources available to your developers from weeks to just minutes. This results in a dramatic increase in agility for the organization, since the cost and time it takes to experiment and develop is significantly lower.
+    4. Increase speed and agility: If you use physically servers etc. it takes a lot of time to implement new changes or updates. With cloud computing you can use new IT resources with just one click and use them straight away. This saves time and money for the company beacause you don't need to experiment yourself. 
 
-    5. Stop spending money on running and maintaining data centers: Focus on projects that differentiate your business, not the infrastructure. Cloud computing lets you focus on your own customers, rather than on the heavy lifting of racking, stacking, and powering servers. 
+    5. Stop spending money on running and maintaining data centers: With cloud computing you don't need to spend money on a physical infrastructure (electricity, powering etc.). Instead you can focus on the customers of your company. 
 
-    6. Go global in minutes: Easily deploy your application in multiple regions around the world with just a few clicks. This means you can provide lower latency and a better experience for your customers at minimal cost.
-
+    6. Go global in minutes: With cloud computing you can deploy a new application in just a few clicks worlwide. This means that you can provide  much better experience for you customers at a minimal cost. 
 
