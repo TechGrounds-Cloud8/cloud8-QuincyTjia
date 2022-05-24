@@ -55,6 +55,7 @@ Region: Frankfurt (eu-central-1)
 - https://docs.aws.amazon.com/AmazonS3/latest/userguide/WebsiteAccessPermissionsReqd.html
 - https://s3.amazonaws.com/doc/s3-developer-guide/RESTObjectPUT.html#:~:text=The%20PUT%20request%20operation%20is,the%20entire%20object%20was%20stored.
 - https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html
+- https://www.youtube.com/watch?v=-mIANj3lBFk
 
 ### Overcome challenges
 - I first had to search for all the key terminology.
