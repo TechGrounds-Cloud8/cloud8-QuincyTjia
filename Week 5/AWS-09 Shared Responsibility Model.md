@@ -27,6 +27,7 @@ Study
 
 ![AWS-09](../00_includes/AWS09-1.png)
 
+![AWS-09](../00_includes/AWS09-2.png)
 
 
 
