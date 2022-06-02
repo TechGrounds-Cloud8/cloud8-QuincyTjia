@@ -24,6 +24,12 @@
 
 - Network File System (NFSv4) protocol: NFS, or Network File System, was designed in 1984 by Sun Microsystems. This distributed file system protocol allows a user on a client computer to access files over a network in the same way they would access a local storage file. Because it is an open standard, anyone can implement the protocol. NFS started in-system as an experiment but the second version was publicly released after the initial success. To access data stored on another machine (i.e. a server) the server would implement NFS daemon processes to make data available to clients. The server administrator determines what to make available and ensures it can recognize validated clients. From the client's side, the machine requests access to exported data, typically by issuing a mount command. If successful, the client machine can then view and interact with the file systems within the decided parameters. 
 
+- Relational Database Service (RDS): Amazon Relational Database Service (RDS) is a collection of managed web services that makes it simple to set up, operate, and scale databases in the cloud. Choose from seven popular engines — Amazon Aurora with MySQL compatibility, Amazon Aurora with PostgreSQL compatibility, MySQL, MariaDB, PostgreSQL, Oracle, and SQL Server — and deploy on-premises with Amazon RDS on AWS Outposts.
+
+- MySQL: MySQL is a relational database management system (RDBMS) developed by Oracle that is based on structured query language (SQL). A database is a structured collection of data. It may be anything from a simple shopping list to a picture gallery or a place to hold the vast amounts of information in a corporate network. In particular, a relational database is a digital store collecting data and organizing it according to the relational model. In this model, tables consist of rows and columns, and relationships between data elements all follow a strict logical structure. An RDBMS is simply the set of software tools used to actually implement, manage, and query such a database. MySQL is integral to many of the most popular software stacks for building and maintaining everything from customer-facing web applications to powerful, data-driven B2B services. Its open-source nature, stability, and rich feature set, paired with ongoing development and support from Oracle, have meant that internet-critical organizations such as Facebook, Flickr, Twitter, Wikipedia, and YouTube all employ MySQL backends. 
+
+Amazon Aurora: Amazon Aurora (Aurora) is a fully managed relational database engine that's compatible with MySQL and PostgreSQL. Aurora includes a high-performance storage subsystem. Its MySQL- and PostgreSQL-compatible database engines are customized to take advantage of that fast distributed storage. The underlying storage grows automatically as needed. An Aurora cluster volume can grow to a maximum size of 128 tebibytes (TiB). Aurora is part of the managed database service Amazon Relational Database Service (Amazon RDS). Amazon RDS is a web service that makes it easier to set up, operate, and scale a relational database in the cloud.    
+
 ## Exercise
 Study
 
@@ -55,7 +61,12 @@ Practice
 - https://www.extrahop.com/resources/protocols/nfs/#:~:text=Network%20File%20System%20(NFS)%20Protocol,-What%20is%20NFS&text=NFS%2C%20or%20Network%20File%20System,access%20a%20local%20storage%20file.
 - https://www.youtube.com/watch?v=vAV4ASDnbN0 
 - https://docs.aws.amazon.com/efs/latest/ug/gs-step-two-create-efs-resources.html
-- https://docs.amazonaws.cn/en_us/AWSEC2/latest/UserGuide/AmazonEFS.html
+- https://aws.amazon.com/rds/#:~:text=Amazon%20Relational%20Database%20Service%20(RDS,scale%20databases%20in%20the%20cloud.
+- https://www.youtube.com/watch?v=eMzCI7S1P9M
+- https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Welcome.html
+- https://www.talend.com/resources/what-is-mysql/
+- https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html 
+- https://www.youtube.com/watch?v=FzxqIdIZ9wc
 - 
 
 ### Overcome challenges
@@ -64,28 +75,36 @@ Practice
 - After that I had to study what Route53 is and how it works.
 - After that I needed to study what EFS is and do some practice with it. 
 - I couldn't log in to my instance, turned out I needed to remove and add the inbound rule (SSH)
+- I thought that the efs was mounted automatically but it turned out I had to do it myself. Even when you checked the box to do it automatically. Edit: It turned out it was mounted but 
+- After that I had to study RDS and Aurora and do some practice with it. 
 - 
 
 ### Results
 EFS:
 
-I first made a security group with the rules: Allow inbound SSH and Allow inbound NFS connections (source is the security group itself).
-
-After that I made a EFS file system.
+I first made a EFS: 
 
 ![AWS-13](../00_includes/AWS13-5.png)
 
-After that I made two EC2 instances. During the configuration for the instance I already mounted the EFS to the instances during a boot up:
+After that I made two EC2 instances. And I used the default SG (SSH and All traffic). 
 
 ![AWS-13](../00_includes/AWS13-6.png)
 
-You can see here that it is mounted. 
+Then I logged in on the first one and mounted the efs. Remember: First make a new directory in de dev map. To know the command to mount the efs, go to your efs dashboard and go to attach. 
 
 ![AWS-13](../00_includes/AWS13-7.png)
 
-Added a text file on instance 1:
-
 ![AWS-13](../00_includes/AWS13-8.png)
+
+I then made a text file in the efs. After that I went to the other instance and mounted the efs again. After that I went to the efs on the second instance to see if I could see the text file.
+
+![AWS-13](../00_includes/AWS13-9.png)
+
+Creating a MySQL DB instance and connect to a database on a MySQL DB:
+
+
+
+
 
 
 
