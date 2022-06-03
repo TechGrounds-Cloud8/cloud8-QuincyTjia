@@ -1,5 +1,5 @@
 # AWS-13 Elastic Beanstalk, CLoudFront, Route53, EFS, Aurora
-
+With this exercise I had to study and learn a few services and practice how to use it. For EFS and RDS I tried to use it for real. The other services are more theoretical. 
 
 ## Key terminology
 - AWS Elastic Beanstalk: AWS Elastic Beanstalk is an easy-to-use service for deploying and scaling web applications and services developed with Java, .NET, PHP, Node.js, Python, Ruby, Go, and Docker on familiar servers such as Apache, Nginx, Passenger, and IIS. You can simply upload your code and Elastic Beanstalk automatically handles the deployment, from capacity provisioning, load balancing, auto-scaling to application health monitoring. At the same time, you retain full control over the AWS resources powering your application and can access the underlying resources at any time. There is no additional charge for Elastic Beanstalk - you pay only for the AWS resources needed to store and run your applications.
@@ -67,7 +67,8 @@ Practice
 - https://www.talend.com/resources/what-is-mysql/
 - https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html 
 - https://www.youtube.com/watch?v=FzxqIdIZ9wc
-- 
+- https://www.youtube.com/watch?v=ciRbXZqBl7M 
+- https://dev.mysql.com/downloads/workbench/
 
 ### Overcome challenges
 - I first hard to study the Elastic Beanstalk service
@@ -77,7 +78,7 @@ Practice
 - I couldn't log in to my instance, turned out I needed to remove and add the inbound rule (SSH)
 - I thought that the efs was mounted automatically but it turned out I had to do it myself. Even when you checked the box to do it automatically. Edit: It turned out it was mounted but 
 - After that I had to study RDS and Aurora and do some practice with it. 
-- 
+- After I made a Database I didn't know how to connect to it, I had to find that out. It turned out I needed a tool, so I donwloaded the MySQL Workbench.
 
 ### Results
 EFS:
@@ -100,7 +101,22 @@ I then made a text file in the efs. After that I went to the other instance and 
 
 ![AWS-13](../00_includes/AWS13-9.png)
 
-Creating a MySQL DB instance and connect to a database on a MySQL DB:
+Setting up a RDS Aurora (Serverless) instance with MySQL compatibility:
+
+I first made a database (I used the youtube tutorial at the sources). It took quite some time to get it started. 
+
+![AWS-13](../00_includes/AWS13-10.png)
+
+To connect to the database I used the MySQL workbench. I found out that I had choosen that the database was only accessible within the VPC (private). I had to change it to public to connect with it via MySQL Workbench. The screenshots below are from my reader instance. Not from my writer instance because it took to long to change to public (modify). 
+
+![AWS-13](../00_includes/AWS13-13.png)
+
+![AWS-13](../00_includes/AWS13-11.png)
+
+![AWS-13](../00_includes/AWS13-12.png)
+
+
+
 
 
 
