@@ -79,7 +79,7 @@ Study
 - Not that much, it was a lot of theory. The only thing that was a bit harder to understand was the ECS service. I had to spend some more time on that. 
 
 ### Results
-I had to study a few services, you can the services I studied see at the key terminology part. 
+I had to study a few services, you can see the services I studied at the key terminology part. 
 
 
 
