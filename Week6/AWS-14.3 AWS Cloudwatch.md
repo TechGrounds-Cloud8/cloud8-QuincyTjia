@@ -32,7 +32,7 @@ Here you can see the alarm I set for the EC2 instance with the load test. I set 
 
 ![AWS-14.3](../00_includes/AWS14.3-2.png)
 
-I will receive the alarm on my e-mail. You can also choose to immediately do an action with auto scaling etc., but for now I will only set an alarm.
+I will receive the alarm on my e-mail (SNS). You can also choose to immediately do an action with auto scaling etc., but for now I will only set an alarm.
 
 ![AWS-14.3](../00_includes/AWS14.3-3.png)
 
