@@ -1,4 +1,4 @@
-# I changed the value each time for this exercise
+# I changed the value of the variable each time for this exercise 
 x = "Quincy"
 print("Value 1:",x)
 

@@ -1,3 +1,3 @@
-MyName = "Quincy"
+MyName = "Quincy"                   #Variable
 
-print("Hello, " + MyName + "!")
+print("Hello, " + MyName + "!")     #Hello plus variable printed
