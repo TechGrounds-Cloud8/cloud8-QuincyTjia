@@ -14,6 +14,16 @@ The next step is to make a second VPC with another IP range but with the same de
 
 The next thing to do is to make sure the two VPC's have VPC peering enabled. 
 
+08-07-2022: I started working on the VPC peering, I had to figure out how to enable this. So I began with researching. After a while I found a working code for enabling the peering connection. There was only one problem, when destroying your stack and deploying it again it gave an error because everytime you deploy a new stack, the VPC's will get a different ID. So now I had to find a solution on how to fix this problem. After a long time of searching I got help from Ben. It turned out I had to use object programming to make it work. 
+
+# EC2
+
+The next step to take is to deploy an EC2 webserver in VPC 1, so I had to figure out how to do it. I managed after some research how to deploy an EC2 instance with an AMI. The next step is to tweak it a little bit better with the right AMI (type etc. for this project). For now I will deploy the webserver and management server in the same AZ. 
+
+
+
+
+
 
 
 
