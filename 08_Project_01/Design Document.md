@@ -20,6 +20,15 @@ The next thing to do is to make sure the two VPC's have VPC peering enabled.
 
 The next step to take is to deploy an EC2 webserver in VPC 1, so I had to figure out how to do it. I managed after some research how to deploy an EC2 instance with an AMI. The next step is to tweak it a little bit better with the right AMI (type etc. for this project). For now I will deploy the webserver and management server in the same AZ. 
 
+12-07-2022: The next step to do is to add a user data script, so that on deployment the webserver will be automatically installed. I had to figure out how to add that. It took me quite a long time to make the right code for it. It turned out I still didn't quite know how OOP worked.
+
+# Security Groups
+
+The next step to do is to make the security groups for the webserver VPC. That went quite well and was done quickly. The next step to do is to make the NACL for the webserver VPC. 
+
+
+
+
 
 
 
