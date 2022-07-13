@@ -24,7 +24,11 @@ The next step to take is to deploy an EC2 webserver in VPC 1, so I had to figure
 
 # Security Groups
 
-The next step to do is to make the security groups for the webserver VPC. That went quite well and was done quickly. The next step to do is to make the NACL for the webserver VPC. 
+The next step to do is to make the security groups for the webserver VPC. That went quite well and was done quickly. The next step to do is to make a second security group for the management server.
+
+13-07-2022: I have to make a SG for the management server. This SG has to have a rule which add a inbound rule to allow a SSH conncection from a trusted IP address. This went very quickly because I already had the code and only needed to change some settings. 
+
+The next step to do is to make a NACL for the Subnets in the Webserver VPC. It should have the Ingress and Egress HTTP and HTTPS traffic allowed. I also have to add a ACL for the managementserver. It should have at least for now have a Ingress and Egress SSH traffic allowed. I finished the code and the ACL's where added, however I couldn't access my webserver. So I had to find a solution to get access to it again (Ephemeral port). After a while I managed to fix the problem and now I can access my webserver again.   
 
 
 
