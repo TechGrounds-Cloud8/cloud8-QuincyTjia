@@ -30,13 +30,13 @@ The next step to do is to make the security groups for the webserver VPC. That w
 
 The next step to do is to make a NACL for the Subnets in the Webserver VPC. It should have the Ingress and Egress HTTP and HTTPS traffic allowed. I also have to add a ACL for the managementserver. It should have at least for now have a Ingress and Egress SSH traffic allowed. I finished the code and the ACL's where added, however I couldn't access my webserver. So I had to find a solution to get access to it again (Ephemeral port). After a while I managed to fix the problem and now I can access my webserver again.   
 
+# S3
 
+14-07-2022: The next step to do is to make a storage solution where I can store bootstrap/post-deployment scripts. I choose to make a S3 bucket where I can store the scripts (user data). So I had to find out how to create a S3 bucket first. It was pretty easy to create a basic bucket, now I need to place my userdata in the bucket instead of hardcoded in my code. When the webserver will start it will need to read the userdata, but this userdata will be stored in the S3 bucjet. I will need to find out how to make this work. I had to make a new directory which I called assets. In that dir can I place the userdata script. After a while of researching I managed to write the code to put a object (userdata) in the S3 Bucket. The next step to do is to make sure that the webserver can access the userdata which is stored in the S3 Bucket. I managed to make a code which used the .sh file from my bucket to use as userdata. When I want to access the webserver it say access denied, so I have to figure out why (Permissions?). 
 
+When I deleted my stack the S3 bucket wasn't deleted, so I had to add a few extra lines of code to make sure the S3 bucket is automatically deleted when the stack is destroyed. 
 
-
-
-
-
+15-07-2022: I had to fix the issue why I cannot access my webserver, so I began by fixing that. 
 
 
 

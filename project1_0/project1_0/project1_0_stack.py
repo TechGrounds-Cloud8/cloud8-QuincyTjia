@@ -1,8 +1,11 @@
 #from unittest.main import _TestRunner
 from aws_cdk import (
     aws_ec2 as ec2,
+    aws_s3 as s3,
+    aws_s3_deployment as s3deploy,
     Stack,
 )
+import aws_cdk
 from constructs import Construct
 
 class Project10Stack(Stack):
@@ -194,6 +197,25 @@ class Project10Stack(Stack):
             rule_action = ec2.Action.ALLOW,
         )
 
+             #####
+        #### S3 #####
+            #####
+
+        #This is where the S3 bucket is created.
+        Bucket = s3.Bucket(
+            self, "Bucket with scripts",
+            bucket_name = "postdeploymentscripts",
+            removal_policy = aws_cdk.RemovalPolicy.DESTROY,
+            auto_delete_objects = True,
+        )
+
+        #This is where the user data script is uploaded to the S3 bucket. 
+        user_data_upload = s3deploy.BucketDeployment(
+            self, "Deploy_assets_dir",
+            destination_bucket = Bucket,
+            sources = [s3deploy.Source.asset("/Users/quinc/OneDrive/Documenten/GitHub/cloud8-QuincyTjia/project1_0/project1_0/Assets")],
+        )
+            
             ###########
         #### Instances #####
             ###########
@@ -208,14 +230,12 @@ class Project10Stack(Stack):
 
         #This is where the user data is described.
         userdata_webserver = ec2.UserData.for_linux()
-        userdata_webserver.add_commands(
-                    """
-                    yum -y install httpd
-                    systemctl enable httpd
-                    systemctl start httpd
-                    echo '<html><h1>Hello From Your Web Server!</h1></html>' > /var/www/html/index.html
-                    """
+        file_script_path = userdata_webserver.add_s3_download_command(
+            bucket = Bucket,
+            bucket_key = "webserver.sh",            
         )
+
+        userdata_webserver.add_execute_file_command(file_path = file_script_path) 
 
         #This is where the webserver is deployed. 
         instance_webserver = ec2.Instance(
@@ -238,4 +258,3 @@ class Project10Stack(Stack):
             #role = role
         )
         
-
