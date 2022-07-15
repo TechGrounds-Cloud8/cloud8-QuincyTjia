@@ -36,7 +36,7 @@ The next step to do is to make a NACL for the Subnets in the Webserver VPC. It s
 
 When I deleted my stack the S3 bucket wasn't deleted, so I had to add a few extra lines of code to make sure the S3 bucket is automatically deleted when the stack is destroyed. 
 
-15-07-2022: I had to fix the issue why I cannot access my webserver, so I began by fixing that. 
+15-07-2022: I had to fix the issue why I cannot access my webserver, so I began by fixing that. I think it has to do with permissions, so I will search in that direction. I tried to make the bucket public and after that I could access the website. So it defenitely has to do with permissions. I had to make a IAM role that grants access to the S3 bucket.   
 
 
 

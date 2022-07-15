@@ -1,8 +1,10 @@
 #from unittest.main import _TestRunner
 from aws_cdk import (
+    RemovalPolicy,
     aws_ec2 as ec2,
     aws_s3 as s3,
     aws_s3_deployment as s3deploy,
+    aws_iam as iam,
     Stack,
 )
 import aws_cdk
@@ -215,7 +217,26 @@ class Project10Stack(Stack):
             destination_bucket = Bucket,
             sources = [s3deploy.Source.asset("/Users/quinc/OneDrive/Documenten/GitHub/cloud8-QuincyTjia/project1_0/project1_0/Assets")],
         )
-            
+
+        # result = Bucket.add_to_resource_policy(iam.PolicyStatement(
+        #     actions=["s3:GetObject"],
+        #     resources=[Bucket.arn_for_objects("webserver.sh")],
+        #     principals=[iam.AccountRootPrincipal()])
+        # )
+
+        # role = iam.IPolicy(
+        #     self, "MyRole",
+        #     assumed_by=ServicePrincipal("sns.amazonaws.com")
+        # )
+
+        # role.add_to_policy(PolicyStatement(
+        #     resources=["*"],
+        #     actions=["lambda:InvokeFunction"]
+        # ))
+
+        Bucket.grant_public_access()
+
+        
             ###########
         #### Instances #####
             ###########
