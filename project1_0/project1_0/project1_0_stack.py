@@ -88,9 +88,9 @@ class Project10Stack(Stack):
 
         )
 
-        #Create a rule that allows SSH connection from a trusted IP (have to be added later)
+        #Create a rule that allows SSH connection from a trusted IP.
         SG_managementserver.add_ingress_rule(
-            ec2.Peer.any_ipv4(),
+            ec2.Peer.ipv4("172.23.6.122/32"),
             ec2.Port.tcp(22)
 
         )
@@ -153,7 +153,7 @@ class Project10Stack(Stack):
         NACL_webserver.add_entry(
             id = "Allow inbound Ephemeral traffic",
             cidr = ec2.AclCidr.any_ipv4(), 
-            rule_number = 130,
+            rule_number = 120,
             traffic = ec2.AclTraffic.all_traffic().tcp_port_range(1024, 65535),
             direction = ec2.TrafficDirection.INGRESS,
             rule_action = ec2.Action.ALLOW,
@@ -163,7 +163,7 @@ class Project10Stack(Stack):
         NACL_webserver.add_entry(
             id = "Allow outbound Ephemeral traffic",
             cidr = ec2.AclCidr.any_ipv4(), 
-            rule_number = 130,
+            rule_number = 120,
             traffic = ec2.AclTraffic.all_traffic().tcp_port_range(1024, 65535),
             direction = ec2.TrafficDirection.EGRESS,
             rule_action = ec2.Action.ALLOW,
@@ -179,11 +179,11 @@ class Project10Stack(Stack):
         
         )
 
-         #This is where I add the inbound SSH rule for the managementserver NACL.
+        #This is where I add the inbound SSH rule for the managementserver NACL.
         NACL_managementserver.add_entry(
             id = "Allow inbound SSH traffic",
-            cidr = ec2.AclCidr.any_ipv4(), 
-            rule_number = 120,
+            cidr = ec2.AclCidr.ipv4("172.23.6.122/24"), 
+            rule_number = 130,
             traffic = ec2.AclTraffic.all_traffic().tcp_port(22),
             direction = ec2.TrafficDirection.INGRESS,
             rule_action = ec2.Action.ALLOW,
@@ -193,13 +193,13 @@ class Project10Stack(Stack):
         NACL_managementserver.add_entry(
             id = "Allow outbound SSH traffic",
             cidr = ec2.AclCidr.any_ipv4(), 
-            rule_number = 120,
-            traffic = ec2.AclTraffic.all_traffic().tcp_port(22),
+            rule_number = 140,
+            traffic = ec2.AclTraffic.tcp_port_range(1024, 65535),
             direction = ec2.TrafficDirection.EGRESS,
             rule_action = ec2.Action.ALLOW,
         )
 
-             #####
+            #####
         #### S3 #####
             #####
 
@@ -218,25 +218,6 @@ class Project10Stack(Stack):
             sources = [s3deploy.Source.asset("/Users/quinc/OneDrive/Documenten/GitHub/cloud8-QuincyTjia/project1_0/project1_0/Assets")],
         )
 
-        # result = Bucket.add_to_resource_policy(iam.PolicyStatement(
-        #     actions=["s3:GetObject"],
-        #     resources=[Bucket.arn_for_objects("webserver.sh")],
-        #     principals=[iam.AccountRootPrincipal()])
-        # )
-
-        # role = iam.IPolicy(
-        #     self, "MyRole",
-        #     assumed_by=ServicePrincipal("sns.amazonaws.com")
-        # )
-
-        # role.add_to_policy(PolicyStatement(
-        #     resources=["*"],
-        #     actions=["lambda:InvokeFunction"]
-        # ))
-
-        Bucket.grant_public_access()
-
-        
             ###########
         #### Instances #####
             ###########
@@ -266,6 +247,7 @@ class Project10Stack(Stack):
             vpc = vpc_webserver,
             user_data = userdata_webserver,
             security_group = SG_webserver,
+            key_name = "project_1_0",
             
         )
         
@@ -276,6 +258,10 @@ class Project10Stack(Stack):
             machine_image=amzn_linux,
             vpc = vpc_managementserver,
             security_group = SG_managementserver,
+            key_name = "project_1_0",
             #role = role
         )
+
+        #This is where I set a permission to allow the webserver to read my s3 Bucket.
+        Bucket.grant_read(instance_webserver)
         

@@ -36,7 +36,13 @@ The next step to do is to make a NACL for the Subnets in the Webserver VPC. It s
 
 When I deleted my stack the S3 bucket wasn't deleted, so I had to add a few extra lines of code to make sure the S3 bucket is automatically deleted when the stack is destroyed. 
 
-15-07-2022: I had to fix the issue why I cannot access my webserver, so I began by fixing that. I think it has to do with permissions, so I will search in that direction. I tried to make the bucket public and after that I could access the website. So it defenitely has to do with permissions. I had to make a IAM role that grants access to the S3 bucket.   
+15-07-2022: I had to fix the issue why I cannot access my webserver, so I began by fixing that. I think it has to do with permissions, so I will search in that direction. I tried to make the bucket public and after that I could access the website. So it defenitely has to do with permissions. I had to make a IAM role that grants access to the S3 bucket.
+
+18-07-2022: A new sprint! Before I get started with this sprint I had to make a clear overview of the tasks I had to do for this print. So I began the day by making a planning and by making tasks in jiira. After I had done that I went further with the project. I still had to make a IAM role that grants access to the S3 bucket, so I continued working on that. After a lot of searching and trying things out, it turned out I had to change the permissions of the s3 bucket. I allowed the webserver to read  the s3 bucket and it worked after that. 
+
+# SSH and Managementserver
+
+The next step I was going to take is to make sure the SSH connection will work when you try to login on the managementserver. I already made the SG which allows SSH connections and the NACL for the managementserver. The first step is to make sure a key-pair exist or is generated, otherwise you cant login with SSH. I created a key-pair via the management console for now. After that I tried to connect to the Admin server via SSH. I couldn't connect to it because it said a port 22 connection time out. I had to look a bit better at my SG's. It turned out I had to change the outbound SSH rule for the NACL of the managementserver. I had to change the port range to the same range as the ephemeral traffic instead of only using port 22. I can now access my managementserver via SSH connection. A requirement is that the management server can only be reached from a trusted IP adress (my home), so I have to make sure that it is only reachable via my IP adress. I had to modify some SG's.  
 
 
 
