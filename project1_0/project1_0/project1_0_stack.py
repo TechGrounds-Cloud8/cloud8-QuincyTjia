@@ -54,6 +54,26 @@ class Project10Stack(Stack):
             vpc_id=vpc_webserver.vpc_id,
         )
 
+        #This is where the routing table for the adminserver is configured.
+        for subnet in vpc_managementserver.public_subnets:
+            ec2.CfnRoute(
+                self, 
+                id = f"{subnet.node.id} Managementserver Route Table",
+                route_table_id = subnet.route_table.route_table_id,
+                destination_cidr_block = "10.10.10.0/24", 
+                vpc_peering_connection_id = VPC_Peering_connection.ref,
+        )
+        
+        #This is where the routing table for the webserver is configured.
+        for subnet in vpc_webserver.public_subnets:
+            ec2.CfnRoute(
+                self,
+                id = f"{subnet.node.id} Webserver Route Table",
+                route_table_id = subnet.route_table.route_table_id,
+                destination_cidr_block = "10.20.20.0/24", 
+                vpc_peering_connection_id = VPC_Peering_connection.ref,
+        )
+        
             ########
         #### SG's #####
             ########
@@ -69,7 +89,7 @@ class Project10Stack(Stack):
         #Create a rule that allows HTTP traffic.
         SG_webserver.add_ingress_rule(
             ec2.Peer.any_ipv4(),
-            ec2.Port.tcp(80)
+            ec2.Port.tcp(80),
 
         )
         
@@ -77,6 +97,13 @@ class Project10Stack(Stack):
         SG_webserver.add_ingress_rule(
             ec2.Peer.any_ipv4(),
             ec2.Port.tcp(443),
+            
+        )
+
+        #Create a rule that allows SSH traffic. 
+        SG_webserver.add_ingress_rule(
+            ec2.Peer.any_ipv4(),
+            ec2.Port.tcp(22),
             
         )
 
@@ -90,7 +117,8 @@ class Project10Stack(Stack):
 
         #Create a rule that allows SSH connection from a trusted IP.
         SG_managementserver.add_ingress_rule(
-            ec2.Peer.ipv4("172.23.6.122/32"),
+            ec2.Peer.ipv4("84.106.100.87/32"),
+            #ec2.Peer.any_ipv4(),
             ec2.Port.tcp(22)
 
         )
@@ -114,7 +142,7 @@ class Project10Stack(Stack):
             id = "Allow inbound HTTP traffic",
             cidr = ec2.AclCidr.any_ipv4(), 
             rule_number = 100,
-            traffic = ec2.AclTraffic.all_traffic().tcp_port(80),
+            traffic = ec2.AclTraffic.tcp_port(80),
             direction = ec2.TrafficDirection.INGRESS,
             rule_action = ec2.Action.ALLOW,
         )
@@ -124,7 +152,7 @@ class Project10Stack(Stack):
             id = "Allow outbound HTTP traffic",
             cidr = ec2.AclCidr.any_ipv4(), 
             rule_number = 100,
-            traffic = ec2.AclTraffic.all_traffic().tcp_port(80),
+            traffic = ec2.AclTraffic.tcp_port(80),
             direction = ec2.TrafficDirection.EGRESS,
             rule_action = ec2.Action.ALLOW,
         )
@@ -134,7 +162,7 @@ class Project10Stack(Stack):
             id = "Allow HTTPS traffic",
             cidr = ec2.AclCidr.any_ipv4(), 
             rule_number = 110,
-            traffic = ec2.AclTraffic.all_traffic().tcp_port(443),
+            traffic = ec2.AclTraffic.tcp_port(443),
             direction = ec2.TrafficDirection.INGRESS,
             rule_action = ec2.Action.ALLOW,
         )
@@ -144,7 +172,7 @@ class Project10Stack(Stack):
             id = "Allow outbound HTTPS traffic",
             cidr = ec2.AclCidr.any_ipv4(), 
             rule_number = 110,
-            traffic = ec2.AclTraffic.all_traffic().tcp_port(443),
+            traffic = ec2.AclTraffic.tcp_port(443),
             direction = ec2.TrafficDirection.EGRESS,
             rule_action = ec2.Action.ALLOW,
         )
@@ -154,7 +182,7 @@ class Project10Stack(Stack):
             id = "Allow inbound Ephemeral traffic",
             cidr = ec2.AclCidr.any_ipv4(), 
             rule_number = 120,
-            traffic = ec2.AclTraffic.all_traffic().tcp_port_range(1024, 65535),
+            traffic = ec2.AclTraffic.tcp_port_range(1024, 65535),
             direction = ec2.TrafficDirection.INGRESS,
             rule_action = ec2.Action.ALLOW,
         )
@@ -164,11 +192,22 @@ class Project10Stack(Stack):
             id = "Allow outbound Ephemeral traffic",
             cidr = ec2.AclCidr.any_ipv4(), 
             rule_number = 120,
-            traffic = ec2.AclTraffic.all_traffic().tcp_port_range(1024, 65535),
+            traffic = ec2.AclTraffic.tcp_port_range(1024, 65535),
             direction = ec2.TrafficDirection.EGRESS,
             rule_action = ec2.Action.ALLOW,
 
         )
+
+        #This is where I add the inbound Ephemeral rule for the webserver NACL.
+        NACL_webserver.add_entry(
+            id = "Allow inbound SSH traffic",
+            cidr = ec2.AclCidr.any_ipv4(), 
+            rule_number = 125,
+            traffic = ec2.AclTraffic.tcp_port(22),
+            direction = ec2.TrafficDirection.INGRESS,
+            rule_action = ec2.Action.ALLOW,
+        )
+
          #Create a NACL for the managementserver.
         NACL_managementserver = ec2.NetworkAcl(
             self, "Managementserver NACL",
@@ -182,9 +221,10 @@ class Project10Stack(Stack):
         #This is where I add the inbound SSH rule for the managementserver NACL.
         NACL_managementserver.add_entry(
             id = "Allow inbound SSH traffic",
-            cidr = ec2.AclCidr.ipv4("172.23.6.122/24"), 
+            cidr = ec2.AclCidr.ipv4("84.106.100.87/24"), 
+            #cidr = ec2.AclCidr.any_ipv4(),
             rule_number = 130,
-            traffic = ec2.AclTraffic.all_traffic().tcp_port(22),
+            traffic = ec2.AclTraffic.tcp_port(22),
             direction = ec2.TrafficDirection.INGRESS,
             rule_action = ec2.Action.ALLOW,
         )
@@ -192,6 +232,26 @@ class Project10Stack(Stack):
         #This is where I add the outbound SSH rule for the managementserver NACL.
         NACL_managementserver.add_entry(
             id = "Allow outbound SSH traffic",
+            cidr = ec2.AclCidr.any_ipv4(), 
+            rule_number = 130,
+            traffic = ec2.AclTraffic.tcp_port(22),
+            direction = ec2.TrafficDirection.EGRESS,
+            rule_action = ec2.Action.ALLOW,
+        )
+
+        #This is where I add the inbound Ephemeral for the managementserver NACL.
+        NACL_managementserver.add_entry(
+            id = "Allow inbound Ephemeral",
+            cidr = ec2.AclCidr.any_ipv4(), 
+            rule_number = 140,
+            traffic = ec2.AclTraffic.tcp_port_range(1024, 65535),
+            direction = ec2.TrafficDirection.INGRESS,
+            rule_action = ec2.Action.ALLOW,
+        )
+
+        #This is where I add the outbound Ephemeral for the managementserver NACL.
+        NACL_managementserver.add_entry(
+            id = "Allow outbound Ephemeral",
             cidr = ec2.AclCidr.any_ipv4(), 
             rule_number = 140,
             traffic = ec2.AclTraffic.tcp_port_range(1024, 65535),
