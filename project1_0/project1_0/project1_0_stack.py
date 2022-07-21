@@ -1,12 +1,19 @@
 #from unittest.main import _TestRunner
+from asyncio import events
+from calendar import month
 from aws_cdk import (
+    Duration,
     RemovalPolicy,
     aws_ec2 as ec2,
     aws_s3 as s3,
     aws_s3_deployment as s3deploy,
     aws_iam as iam,
+    aws_backup as backup,
+    aws_events as events,
+    aws_kms as kms,
     Stack,
 )
+
 import aws_cdk
 from constructs import Construct
 
@@ -267,6 +274,8 @@ class Project10Stack(Stack):
         Bucket = s3.Bucket(
             self, "Bucket with scripts",
             bucket_name = "postdeploymentscripts",
+            enforce_ssl = True,
+            encryption = s3.BucketEncryption.S3_MANAGED,
             removal_policy = aws_cdk.RemovalPolicy.DESTROY,
             auto_delete_objects = True,
         )
@@ -308,7 +317,14 @@ class Project10Stack(Stack):
             user_data = userdata_webserver,
             security_group = SG_webserver,
             key_name = "project_1_0",
-            
+            block_devices = [ec2.BlockDevice(
+                device_name = "/dev/xvda",
+                volume = ec2.BlockDeviceVolume.ebs(
+                    volume_size = 8,
+                    encrypted = True,
+                    delete_on_termination = True,
+                ))
+            ]
         )
         
         #This is where the managament server is deployed. 
@@ -324,4 +340,56 @@ class Project10Stack(Stack):
 
         #This is where I set a permission to allow the webserver to read my s3 Bucket.
         Bucket.grant_read(instance_webserver)
+
         
+            ###########
+        #### AWS Backup #####
+            ###########
+        
+        #This is where I create a Vault.
+        vault = backup.BackupVault(
+            self, "Webserver_Backup_Vault",
+            backup_vault_name = "Webserver_Backup_Vault",
+            #encryption_key = 
+            removal_policy = RemovalPolicy.DESTROY,
+            access_policy = iam.PolicyDocument(
+                statements = [
+                    iam.PolicyStatement(
+                        effect = iam.Effect.ALLOW,
+                        principals = [iam.AnyPrincipal()],
+                        actions = ["backup:DeleteRecoveryPoint"],
+                        resources = ["*"],
+                    )
+                ]
+            )
+        )
+
+        #THis is where I create a Backupplan.
+        backup_plan = backup.BackupPlan(
+            self, "Daily_Backup",
+            backup_vault = vault,
+        )
+
+        #This is where I add my webserver to the backupplan.
+        backup_plan.add_selection("selection",
+            resources = [
+                backup.BackupResource.from_ec2_instance(instance_webserver),
+            ]
+        )
+        
+        #This is where the the rules are added for the Backupplan. 
+        backup_plan.add_rule(backup.BackupPlanRule(
+            completion_window = Duration.hours(2),
+            start_window = Duration.hours(1),
+            schedule_expression = events.Schedule.cron(
+                day = "*",
+                month = "*",
+                hour = "12",
+                minute = "0"),
+            delete_after = Duration.days(7),    
+            )
+        )
+        
+
+
+

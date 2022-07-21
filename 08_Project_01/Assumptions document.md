@@ -10,4 +10,11 @@ I choose to deploy my VPC's in the eu-central-1 region because that region is cl
 # NACL's
 
 I assumed that the rules should be the same as the SG rules: Allow inbound HTTP and HTTPS traffic for the webserver and allow inbound SSH connection for the managementserver. 
- 
+
+# Backup
+
+Cronjob!
+
+# Volumes
+
+8 Gib!
