@@ -1,6 +1,7 @@
 #!/bin/bash
-yum -y install httpd
-systemctl enable httpd
-systemctl start httpd
-echo '<html><h1>Hello From Your Web Server!</h1></html>' > /var/www/html/index.htm   
+
+sudo yum -y install httpd
+sudo systemctl enable httpd
+sudo systemctl start httpd
+ 
 

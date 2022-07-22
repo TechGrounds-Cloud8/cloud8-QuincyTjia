@@ -299,7 +299,7 @@ class Project10Stack(Stack):
             storage=ec2.AmazonLinuxStorage.GENERAL_PURPOSE
         )
 
-        #This is where the user data is described.
+        #This is where the user data is downloaded.
         userdata_webserver = ec2.UserData.for_linux()
         file_script_path = userdata_webserver.add_s3_download_command(
             bucket = Bucket,
@@ -308,6 +308,18 @@ class Project10Stack(Stack):
 
         userdata_webserver.add_execute_file_command(file_path = file_script_path) 
 
+        #This is where the index page is downloaded.
+        userdata_webserver.add_s3_download_command(
+            bucket = Bucket,
+            bucket_key = "index.html",
+            #local_file = "/tmp/index.html",
+            local_file = "/var/www/html/",
+        )
+
+        userdata_webserver.add_commands("chmod 755 -R /var/www/html/")
+
+        userdata_webserver.add_execute_file_command(file_path = "/var/www/html/")
+        
         #This is where the webserver is deployed. 
         instance_webserver = ec2.Instance(
             self, "Webserver",
@@ -389,6 +401,7 @@ class Project10Stack(Stack):
             delete_after = Duration.days(7),    
             )
         )
+        
         
 
 

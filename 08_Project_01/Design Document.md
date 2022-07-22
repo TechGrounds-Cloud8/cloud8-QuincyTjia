@@ -60,5 +60,10 @@ Another requirement is that the VM disks must be encrypted and that alle data in
 
 I managed to encrypt the webserver volume. Now I need to encrypt the backupvault. After encrypting the backupVault, I will first make a windows adminserver before encrypting the disk for the admin server.   
 
+22-07-2022: After some extra research I actually found out that the backups from VM's are always encrypted in the Vault. So I don't have to do that anymore. 
+
+ # Index HTML
+
+The Product owners said that the default apache website should be replaced, so I had to figure out how to do that. The first step was to make simple html file. After that I had to make sure the script is uploaded in the S3 bucket when the stack is deployed. After some more research I managed to make sure a new html file is add during the deployment. Within this file, users of the program can add html code to configure the website. 
 
 
