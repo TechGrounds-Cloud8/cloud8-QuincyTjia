@@ -11,6 +11,7 @@ from aws_cdk import (
     aws_backup as backup,
     aws_events as events,
     aws_kms as kms,
+
     Stack,
 )
 
@@ -125,9 +126,29 @@ class Project10Stack(Stack):
         #Create a rule that allows SSH connection from a trusted IP.
         SG_managementserver.add_ingress_rule(
             ec2.Peer.ipv4("84.106.100.87/32"),
-            #ec2.Peer.any_ipv4(),
-            ec2.Port.tcp(22)
+            ec2.Port.tcp(22),
 
+        )
+
+        #Create a rule that allows RDP connection from a trusted IP.
+        SG_managementserver.add_ingress_rule(
+            ec2.Peer.ipv4("84.106.100.87/32"),
+            ec2.Port.tcp(3389),
+
+        )
+
+        #Create a rule that allows HTTP traffic.
+        SG_managementserver.add_ingress_rule(
+            ec2.Peer.any_ipv4(),
+            ec2.Port.tcp(80),
+
+        )
+
+        #Create a rule that allows HTTPS traffic. 
+        SG_managementserver.add_ingress_rule(
+            ec2.Peer.any_ipv4(),
+            ec2.Port.tcp(443),
+            
         )
 
             ########
@@ -266,6 +287,66 @@ class Project10Stack(Stack):
             rule_action = ec2.Action.ALLOW,
         )
 
+        #This is where I add the inbound RDP for the managementserver NACL.
+        NACL_managementserver.add_entry(
+            id = "Allow inbound RDP",
+            cidr = ec2.AclCidr.ipv4("84.106.100.87/24"), 
+            rule_number = 150,
+            traffic = ec2.AclTraffic.tcp_port(3389),
+            direction = ec2.TrafficDirection.INGRESS,
+            rule_action = ec2.Action.ALLOW,
+        )
+
+        #This is where I add the outbound RDP for the managementserver NACL.
+        NACL_managementserver.add_entry(
+            id = "Allow outbound RDP",
+            cidr = ec2.AclCidr.any_ipv4(), 
+            rule_number = 150,
+            traffic = ec2.AclTraffic.tcp_port(3389),
+            direction = ec2.TrafficDirection.EGRESS,
+            rule_action = ec2.Action.ALLOW,
+        )
+
+        #This is where I add the inbound HTTP rule for the Managementserver NACL.
+        NACL_managementserver.add_entry(
+            id = "Allow inbound HTTP traffic",
+            cidr = ec2.AclCidr.any_ipv4(), 
+            rule_number = 160,
+            traffic = ec2.AclTraffic.tcp_port(80),
+            direction = ec2.TrafficDirection.INGRESS,
+            rule_action = ec2.Action.ALLOW,
+        )
+
+        #This is where I add the outbound HTTP rule for the managementserver NACL.
+        NACL_managementserver.add_entry(
+            id = "Allow outbound HTTP traffic",
+            cidr = ec2.AclCidr.any_ipv4(), 
+            rule_number = 160,
+            traffic = ec2.AclTraffic.tcp_port(80),
+            direction = ec2.TrafficDirection.EGRESS,
+            rule_action = ec2.Action.ALLOW,
+        )
+
+        #This is where I add the inbound HHTPS rule for the managementserver NACL.
+        NACL_managementserver.add_entry(
+            id = "Allow HTTPS traffic",
+            cidr = ec2.AclCidr.any_ipv4(), 
+            rule_number = 170,
+            traffic = ec2.AclTraffic.tcp_port(443),
+            direction = ec2.TrafficDirection.INGRESS,
+            rule_action = ec2.Action.ALLOW,
+        )
+
+        #This is where I add the outbound HTTPS rule for the managementserver NACL.
+        NACL_managementserver.add_entry(
+            id = "Allow outbound HTTPS traffic",
+            cidr = ec2.AclCidr.any_ipv4(), 
+            rule_number = 170,
+            traffic = ec2.AclTraffic.tcp_port(443),
+            direction = ec2.TrafficDirection.EGRESS,
+            rule_action = ec2.Action.ALLOW,
+        )
+
             #####
         #### S3 #####
             #####
@@ -291,7 +372,7 @@ class Project10Stack(Stack):
         #### Instances #####
             ###########
 
-        #This is where the AMI for the webserver/management server is decribed.
+        #This is where the AMI for the webserver server is decribed.
         amzn_linux = ec2.MachineImage.latest_amazon_linux(
             generation=ec2.AmazonLinuxGeneration.AMAZON_LINUX_2,
             edition=ec2.AmazonLinuxEdition.STANDARD,
@@ -299,6 +380,9 @@ class Project10Stack(Stack):
             storage=ec2.AmazonLinuxStorage.GENERAL_PURPOSE
         )
 
+        #THis is where the AMI for the managementserver is described.
+        Windows_AMI = ec2.WindowsImage(ec2.WindowsVersion.WINDOWS_SERVER_2022_ENGLISH_FULL_BASE)
+        
         #This is where the user data is downloaded.
         userdata_webserver = ec2.UserData.for_linux()
         file_script_path = userdata_webserver.add_s3_download_command(
@@ -342,8 +426,8 @@ class Project10Stack(Stack):
         #This is where the managament server is deployed. 
         instance_managementserver = ec2.Instance(
             self, "Managementserver",
-            instance_type=ec2.InstanceType("t2.micro"),
-            machine_image=amzn_linux,
+            instance_type= ec2.InstanceType("t2.micro"),
+            machine_image= Windows_AMI,
             vpc = vpc_managementserver,
             security_group = SG_managementserver,
             key_name = "project_1_0",
