@@ -108,12 +108,6 @@ class Project10Stack(Stack):
             
         )
 
-        #Create a rule that allows SSH traffic. 
-        SG_webserver.add_ingress_rule(
-            ec2.Peer.any_ipv4(),
-            ec2.Port.tcp(22),
-            
-        )
 
         #Create a security group for the management server.
         SG_managementserver = ec2.SecurityGroup(
@@ -383,7 +377,7 @@ class Project10Stack(Stack):
         #THis is where the AMI for the managementserver is described.
         Windows_AMI = ec2.WindowsImage(ec2.WindowsVersion.WINDOWS_SERVER_2022_ENGLISH_FULL_BASE)
         
-        #This is where the user data is downloaded.
+        #This is where the user data for the webserver is downloaded.
         userdata_webserver = ec2.UserData.for_linux()
         file_script_path = userdata_webserver.add_s3_download_command(
             bucket = Bucket,
@@ -431,13 +425,34 @@ class Project10Stack(Stack):
             vpc = vpc_managementserver,
             security_group = SG_managementserver,
             key_name = "project_1_0",
-            #role = role
+            block_devices = [ec2.BlockDevice(
+                device_name = "/dev/sda1",
+                volume = ec2.BlockDeviceVolume.ebs(
+                    volume_size = 30,
+                    encrypted = True,
+                    delete_on_termination = True,
+                )
+            )]
+        )
+
+        #This is where the user data for the managementserver is described.
+        instance_managementserver.user_data.for_windows()
+        instance_managementserver.add_user_data(
+            "Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0",
+            "Start-Service sshd",
+            "Set-Service -Name sshd -StartupType 'Automatic'",
+            "New-NetFirewallRule -Name sshd -DisplayName 'Allow SSH' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22",
         )
 
         #This is where I set a permission to allow the webserver to read my s3 Bucket.
         Bucket.grant_read(instance_webserver)
 
-        
+        #Only direct SSH connections to the admin server is allowed.
+        SG_webserver.connections.allow_from(
+            other = instance_managementserver,
+            port_range = ec2.Port.tcp(22),
+        )
+
             ###########
         #### AWS Backup #####
             ###########
@@ -485,7 +500,6 @@ class Project10Stack(Stack):
             delete_after = Duration.days(7),    
             )
         )
-        
         
 
 
