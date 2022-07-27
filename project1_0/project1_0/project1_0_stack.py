@@ -18,6 +18,8 @@ from aws_cdk import (
 import aws_cdk
 from constructs import Construct
 
+trusted_ip = "84.106.100.87/32"
+
 class Project10Stack(Stack):
 
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
@@ -119,14 +121,14 @@ class Project10Stack(Stack):
 
         #Create a rule that allows SSH connection from a trusted IP.
         SG_managementserver.add_ingress_rule(
-            ec2.Peer.ipv4("84.106.100.87/32"),
+            ec2.Peer.ipv4(trusted_ip),
             ec2.Port.tcp(22),
 
         )
 
         #Create a rule that allows RDP connection from a trusted IP.
         SG_managementserver.add_ingress_rule(
-            ec2.Peer.ipv4("84.106.100.87/32"),
+            ec2.Peer.ipv4(trusted_ip),
             ec2.Port.tcp(3389),
 
         )
@@ -220,7 +222,7 @@ class Project10Stack(Stack):
 
         )
 
-        #This is where I add the inbound Ephemeral rule for the webserver NACL.
+        #This is where I add the inbound SSH rule for the webserver NACL.
         NACL_webserver.add_entry(
             id = "Allow inbound SSH traffic",
             cidr = ec2.AclCidr.any_ipv4(), 
@@ -243,8 +245,7 @@ class Project10Stack(Stack):
         #This is where I add the inbound SSH rule for the managementserver NACL.
         NACL_managementserver.add_entry(
             id = "Allow inbound SSH traffic",
-            cidr = ec2.AclCidr.ipv4("84.106.100.87/24"), 
-            #cidr = ec2.AclCidr.any_ipv4(),
+            cidr = ec2.AclCidr.ipv4(trusted_ip), 
             rule_number = 130,
             traffic = ec2.AclTraffic.tcp_port(22),
             direction = ec2.TrafficDirection.INGRESS,
@@ -284,7 +285,7 @@ class Project10Stack(Stack):
         #This is where I add the inbound RDP for the managementserver NACL.
         NACL_managementserver.add_entry(
             id = "Allow inbound RDP",
-            cidr = ec2.AclCidr.ipv4("84.106.100.87/24"), 
+            cidr = ec2.AclCidr.ipv4(trusted_ip), 
             rule_number = 150,
             traffic = ec2.AclTraffic.tcp_port(3389),
             direction = ec2.TrafficDirection.INGRESS,
@@ -461,18 +462,7 @@ class Project10Stack(Stack):
         vault = backup.BackupVault(
             self, "Webserver_Backup_Vault",
             backup_vault_name = "Webserver_Backup_Vault",
-            #encryption_key = 
             removal_policy = RemovalPolicy.DESTROY,
-            access_policy = iam.PolicyDocument(
-                statements = [
-                    iam.PolicyStatement(
-                        effect = iam.Effect.ALLOW,
-                        principals = [iam.AnyPrincipal()],
-                        actions = ["backup:DeleteRecoveryPoint"],
-                        resources = ["*"],
-                    )
-                ]
-            )
         )
 
         #THis is where I create a Backupplan.

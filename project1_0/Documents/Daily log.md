@@ -1,4 +1,4 @@
-# Design document
+# Daily log (extended)
 
 During this project I have to make some choices which are not described in the project document. I will describe the decissions I made in this document and why I made them. This document is also where I will describe all the work I did for the project per subject.
 
