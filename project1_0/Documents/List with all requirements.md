@@ -11,6 +11,7 @@ Requirements:
 5. The admin/management server only must be reachable from trusted locations (office/admins's home).
 6. The following IP ranges should be used: 10.10.10.0/24 & 10.20.20.0/24.
 7. All the subnets have to be protected by a firewall on the subnet level.
+8. SSH or RDP connections to the webserver are only allowed from the managementserver.
 9. Don't be afraid to propose or make changes to the architecture, but make hard choices, so you can reach the deadline.
 10. There is a maximum budget of €150, don't exceed it.
 
