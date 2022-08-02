@@ -10,6 +10,7 @@ from aws_cdk import (
     aws_backup as backup,
     aws_events as events,
     aws_kms as kms,
+    aws_autoscaling as autoscaling,
 
     Stack,
 )
@@ -32,13 +33,13 @@ class Project11Stack(Stack):
         vpc_webserver = ec2.Vpc(
             self, "VPC_1",
             cidr="10.10.10.0/24",
-            max_azs=1,
-            nat_gateways=1,
+            max_azs=2,
+            nat_gateways=0,
             subnet_configuration=[
                 ec2.SubnetConfiguration(
                     name="private", 
                     cidr_mask=26, 
-                    subnet_type=ec2.SubnetType.PRIVATE_WITH_NAT
+                    subnet_type=ec2.SubnetType.PRIVATE_ISOLATED
                 ),
                 ec2.SubnetConfiguration(
                     name ="public",
@@ -460,6 +461,49 @@ class Project11Stack(Stack):
             port_range = ec2.Port.tcp(22),
         )
 
+            ####################
+        #### Auto-scaling group #####
+            ####################
+
+        #This is where the launch Template is being configured.
+        launch_template = ec2.LaunchTemplate(
+            self, "Launchtemplate",
+            #block_devices =
+            instance_type = ec2.InstanceType("t2.micro"),
+            key_name = "project_1_0",
+            machine_image = amzn_linux,
+            #role =
+            security_group = SG_webserver, 
+            user_data = userdata_webserver,
+            # block_devices = [autoscaling.BlockDevice(device_name ="/dev/xvda",
+            #     volume = autoscaling.BlockDeviceVolume.ebs(8, encrypted = True)),
+            # ]  
+        )
+        
+        health_check = autoscaling.HealthCheck.ec2(
+            grace = Duration.minutes(5)
+        )
+
+        #THis is where the auto scaling group is being configured.
+        auto_scaling_group = autoscaling.AutoScalingGroup(
+            self, "Autoscalinggroup",
+            vpc = vpc_webserver,
+            vpc_subnets = ec2.SubnetSelection(
+                subnet_type = ec2.SubnetType.PRIVATE_ISOLATED),
+            launch_template = launch_template,
+            health_check = health_check,
+            max_capacity = 3,
+        )
+
+        # auto_scaling_group.scale_on_request_count("RPS",
+        #     target_requests_per_second= 500,
+        # )
+
+        auto_scaling_group.scale_on_cpu_utilization(
+            'CPU',
+            target_utilization_percent = 75,
+        )
+
             ###########
         #### AWS Backup #####
             ###########
@@ -497,6 +541,3 @@ class Project11Stack(Stack):
             )
         )
         
-
-
-
