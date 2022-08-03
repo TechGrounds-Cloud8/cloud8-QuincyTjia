@@ -11,7 +11,7 @@ from aws_cdk import (
     aws_events as events,
     aws_kms as kms,
     aws_autoscaling as autoscaling,
-
+    aws_elasticloadbalancingv2 as elbv2,
     Stack,
 )
 
@@ -33,7 +33,7 @@ class Project11Stack(Stack):
         vpc_webserver = ec2.Vpc(
             self, "VPC_1",
             cidr="10.10.10.0/24",
-            max_azs=2,
+            max_azs=3,
             nat_gateways=0,
             subnet_configuration=[
                 ec2.SubnetConfiguration(
@@ -495,15 +495,48 @@ class Project11Stack(Stack):
             max_capacity = 3,
         )
 
-        # auto_scaling_group.scale_on_request_count("RPS",
-        #     target_requests_per_second= 500,
-        # )
+        auto_scaling_group.scale_on_request_count("RPS",
+            target_requests_per_second= 500,
+        )
 
         auto_scaling_group.scale_on_cpu_utilization(
             'CPU',
             target_utilization_percent = 75,
         )
 
+             ##############
+        #### Load Balancer #####
+            ###############
+
+        alb = elbv2.ApplicationLoadBalancer(
+            self, "alb",
+            vpc = vpc_webserver,
+            internet_facing = True,
+            #security_group = 
+        )
+
+        redirect = alb.add_redirect(
+            self, "redirect",
+        )
+
+        listener = alb.add_listener(
+            self, "listener",
+            port = 443,
+            open = True, 
+            #certificates = ,
+            #ssl_policy = ,
+        )
+
+        target_group = listener.add_targets(
+            self, "TG",
+            port = 80,
+            targets = auto_scaling_group,
+            health_check = alb.HealthCheck(
+                port = 80,
+                enabled = True,
+            )
+        )
+        
             ###########
         #### AWS Backup #####
             ###########

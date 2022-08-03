@@ -12,3 +12,4 @@ The first step I wanted to do, is to make sure that the webserver is deployed in
 
 ## Application Load Balancer
 
+03-08-2022: So today I will start working on the Application Load Balancer. So the first step is to find out how to program this part. 
