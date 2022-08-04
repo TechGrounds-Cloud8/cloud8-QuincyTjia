@@ -12,4 +12,6 @@ The first step I wanted to do, is to make sure that the webserver is deployed in
 
 ## Application Load Balancer
 
-03-08-2022: So today I will start working on the Application Load Balancer. So the first step is to find out how to program this part. 
+03-08-2022: So today I will start working on the Application Load Balancer. So the first step is to find out how to program this part. After having found the rigth code, I had to find a way to add the right certificates. 
+
+04-08: I started this day with a lot of troubleshooting, my code wasn't working good, so I had to make some changes. After is worked again I started to add the ssl certificate. I am going to use a self-signed certificate because I already know how to make one and how to use it. After making one, I saw that a certificate is being used for the Load Balancer, so this part is working.   

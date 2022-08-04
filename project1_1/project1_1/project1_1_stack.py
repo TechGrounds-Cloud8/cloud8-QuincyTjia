@@ -1,3 +1,4 @@
+from argparse import ArgumentError
 from asyncio import events
 from calendar import month
 from aws_cdk import (
@@ -12,6 +13,7 @@ from aws_cdk import (
     aws_kms as kms,
     aws_autoscaling as autoscaling,
     aws_elasticloadbalancingv2 as elbv2,
+    aws_certificatemanager as acm,
     Stack,
 )
 
@@ -367,7 +369,7 @@ class Project11Stack(Stack):
         user_data_upload = s3deploy.BucketDeployment(
             self, "Deploy_assets_dir",
             destination_bucket = Bucket,
-            sources = [s3deploy.Source.asset("/Users/quinc/OneDrive/Documenten/GitHub/cloud8-QuincyTjia/project1_0/project1_0/Assets")],
+            sources = [s3deploy.Source.asset("/Users/quinc/OneDrive/Documenten/GitHub/cloud8-QuincyTjia/project1_1/project1_1/Assets")],
         )
 
             ###########
@@ -465,49 +467,61 @@ class Project11Stack(Stack):
         #### Auto-scaling group #####
             ####################
 
-        #This is where the launch Template is being configured.
-        launch_template = ec2.LaunchTemplate(
-            self, "Launchtemplate",
-            #block_devices =
-            instance_type = ec2.InstanceType("t2.micro"),
-            key_name = "project_1_0",
-            machine_image = amzn_linux,
-            #role =
-            security_group = SG_webserver, 
-            user_data = userdata_webserver,
-            # block_devices = [autoscaling.BlockDevice(device_name ="/dev/xvda",
-            #     volume = autoscaling.BlockDeviceVolume.ebs(8, encrypted = True)),
-            # ]  
-        )
-        
-        health_check = autoscaling.HealthCheck.ec2(
-            grace = Duration.minutes(5)
-        )
-
-        #THis is where the auto scaling group is being configured.
+        #This is where the auto scaling group is being configured.
         auto_scaling_group = autoscaling.AutoScalingGroup(
             self, "Autoscalinggroup",
             vpc = vpc_webserver,
             vpc_subnets = ec2.SubnetSelection(
                 subnet_type = ec2.SubnetType.PRIVATE_ISOLATED),
-            launch_template = launch_template,
-            health_check = health_check,
+            #launch_template = launch_template,
+            #health_check = health_check,
+            min_capacity = 1,
             max_capacity = 3,
+            machine_image = amzn_linux,
+            instance_type = ec2.InstanceType("t2.micro"),
+            key_name = "project_1_0",
+            security_group = SG_webserver,
         )
 
-        auto_scaling_group.scale_on_request_count("RPS",
-            target_requests_per_second= 500,
+        #This is where all the user data is being added.
+        asg_userdata = auto_scaling_group.user_data.add_s3_download_command(
+            bucket = Bucket,
+            bucket_key = "webserver.sh", 
         )
 
-        auto_scaling_group.scale_on_cpu_utilization(
-            'CPU',
-            target_utilization_percent = 75,
+        auto_scaling_group.user_data.add_execute_file_command(file_path = asg_userdata) 
+
+        auto_scaling_group.user_data.add_s3_download_command(
+            bucket = Bucket,
+            bucket_key = "index.html",
+            #local_file = "/tmp/index.html",
+            local_file = "/var/www/html/",
         )
+
+        auto_scaling_group.user_data.add_commands("chmod 755 -R /var/www/html/")
+
+        auto_scaling_group.user_data.add_execute_file_command(file_path = "/var/www/html/")
+
+        Bucket.grant_read(auto_scaling_group)
+
+        # #This is where the launch Template is being configured.
+        # launch_template = ec2.LaunchTemplate(
+        #     self, "Launchtemplate",
+        #     #block_devices =
+        #     instance_type = ec2.InstanceType("t2.micro"),
+        #     key_name = "project_1_0",
+        #     machine_image = amzn_linux,
+        #     #role =
+        #     security_group = SG_webserver, 
+        #     user_data = asg_userdata,
+         
+        # )
 
              ##############
         #### Load Balancer #####
             ###############
 
+        #This is where the ALB is being configured.
         alb = elbv2.ApplicationLoadBalancer(
             self, "alb",
             vpc = vpc_webserver,
@@ -515,28 +529,42 @@ class Project11Stack(Stack):
             #security_group = 
         )
 
-        redirect = alb.add_redirect(
-            self, "redirect",
-        )
+        #This is where the HTTP traffic is redirected to HTTPS traffic.
+        redirect = alb.add_redirect()
 
+        #This is where the arn for the certificate is being called.
+        arn = "arn:aws:acm:eu-central-1:638158371293:certificate/2c9dfa7c-160e-4802-8004-8fd44d360fdf"
+
+        #This is where the certificate is being used.
+        certificate = acm.Certificate.from_certificate_arn(self, "Certificate", arn)
+
+        #This is the listener for HTTPS
         listener = alb.add_listener(
-            self, "listener",
+            "listener",
             port = 443,
+            #port = 80,
             open = True, 
-            #certificates = ,
-            #ssl_policy = ,
+            certificates = [certificate],
+            ssl_policy = elbv2.SslPolicy.FORWARD_SECRECY_TLS12,
         )
 
+        #This is the target group for the listener.
         target_group = listener.add_targets(
-            self, "TG",
+            "TG",
             port = 80,
-            targets = auto_scaling_group,
-            health_check = alb.HealthCheck(
-                port = 80,
+            targets = [auto_scaling_group],
+            health_check = elbv2.HealthCheck(
+                port = "80",
                 enabled = True,
             )
         )
         
+        #This is where the scaling policy is defined. 
+        auto_scaling_group.scale_on_cpu_utilization(
+            'CPU',
+            target_utilization_percent = 75,
+        )
+
             ###########
         #### AWS Backup #####
             ###########
