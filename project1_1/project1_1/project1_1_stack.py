@@ -92,6 +92,16 @@ class Project11Stack(Stack):
                 destination_cidr_block = "10.20.20.0/24", 
                 vpc_peering_connection_id = VPC_Peering_connection.ref,
         )
+
+        #This is where the routing table for the private websever subnets is configured.
+        for subnet in vpc_webserver.private_subnets:
+            ec2.CfnRoute(
+                self,
+                id = f"{subnet.node.id} Webserver Private Subnet Route Table",
+                route_table_id = subnet.route_table.route_table_id,
+                destination_cidr_block = "10.20.20.0/24", 
+                vpc_peering_connection_id = VPC_Peering_connection.ref,
+        )
         
             ########
         #### SG's #####
@@ -118,6 +128,10 @@ class Project11Stack(Stack):
             ec2.Port.tcp(443),
             
         )
+
+        #Create a rule that allow SSH from the admin server.
+        SG_webserver.connections.allow_from(
+            ec2.Peer.ipv4("10.20.20.0/24"), ec2.Port.tcp(22))
 
 
         #Create a security group for the management server.
@@ -160,18 +174,17 @@ class Project11Stack(Stack):
         #### NACL's #####
             ########
 
-        #Create a NACL for the webserver.
-        NACL_webserver = ec2.NetworkAcl(
-            self, "Webserver NACL",
+        #Create a NACL for the private webserver subnets.
+        NACL_webserver_private = ec2.NetworkAcl(
+            self, "Webserver private NACL",
             vpc = vpc_webserver,
             subnet_selection = ec2.SubnetSelection(
-                subnet_type = ec2.SubnetType.PUBLIC
+                subnet_type = ec2.SubnetType.PRIVATE_ISOLATED
             )
-
         )
 
         #This is where I add the inbound HTTP rule for the webserver NACL.
-        NACL_webserver.add_entry(
+        NACL_webserver_private.add_entry(
             id = "Allow inbound HTTP traffic",
             cidr = ec2.AclCidr.any_ipv4(), 
             rule_number = 100,
@@ -181,7 +194,7 @@ class Project11Stack(Stack):
         )
 
         #This is where I add the outbound HTTP rule for the webserver NACL.
-        NACL_webserver.add_entry(
+        NACL_webserver_private.add_entry(
             id = "Allow outbound HTTP traffic",
             cidr = ec2.AclCidr.any_ipv4(), 
             rule_number = 100,
@@ -191,7 +204,7 @@ class Project11Stack(Stack):
         )
 
         #This is where I add the inbound HHTPS rule for the webserver NACL.
-        NACL_webserver.add_entry(
+        NACL_webserver_private.add_entry(
             id = "Allow HTTPS traffic",
             cidr = ec2.AclCidr.any_ipv4(), 
             rule_number = 110,
@@ -201,7 +214,7 @@ class Project11Stack(Stack):
         )
 
         #This is where I add the outbound HTTPS rule for the webserver NACL.
-        NACL_webserver.add_entry(
+        NACL_webserver_private.add_entry(
             id = "Allow outbound HTTPS traffic",
             cidr = ec2.AclCidr.any_ipv4(), 
             rule_number = 110,
@@ -211,7 +224,86 @@ class Project11Stack(Stack):
         )
 
         #This is where I add the inbound Ephemeral rule for the webserver NACL.
-        NACL_webserver.add_entry(
+        NACL_webserver_private.add_entry(
+            id = "Allow inbound Ephemeral traffic",
+            cidr = ec2.AclCidr.any_ipv4(), 
+            rule_number = 120,
+            traffic = ec2.AclTraffic.tcp_port_range(1024, 65535),
+            direction = ec2.TrafficDirection.INGRESS,
+            rule_action = ec2.Action.ALLOW,
+        )
+
+         #This is where I add the outbound Ephemeral rule for the webserver NACL.
+        NACL_webserver_private.add_entry(
+            id = "Allow outbound Ephemeral traffic",
+            cidr = ec2.AclCidr.any_ipv4(), 
+            rule_number = 120,
+            traffic = ec2.AclTraffic.tcp_port_range(1024, 65535),
+            direction = ec2.TrafficDirection.EGRESS,
+            rule_action = ec2.Action.ALLOW,
+        )
+
+         #This is where I add the inbound SSH rule for the webserver NACL.
+        NACL_webserver_private.add_entry(
+            id = "Allow inbound SSH traffic",
+            cidr = ec2.AclCidr.any_ipv4(), 
+            rule_number = 125,
+            traffic = ec2.AclTraffic.tcp_port(22),
+            direction = ec2.TrafficDirection.INGRESS,
+            rule_action = ec2.Action.ALLOW,
+        )
+
+        #Create a NACL for the public webserver subnets.
+        NACL_webserver_public = ec2.NetworkAcl(
+            self, "Webserver public NACL",
+            vpc = vpc_webserver,
+            subnet_selection = ec2.SubnetSelection(
+                subnet_type = ec2.SubnetType.PUBLIC
+            )
+        )
+
+        #This is where I add the inbound HTTP rule for the webserver NACL.
+        NACL_webserver_public.add_entry(
+            id = "Allow inbound HTTP traffic",
+            cidr = ec2.AclCidr.any_ipv4(), 
+            rule_number = 100,
+            traffic = ec2.AclTraffic.tcp_port(80),
+            direction = ec2.TrafficDirection.INGRESS,
+            rule_action = ec2.Action.ALLOW,
+        )
+
+        #This is where I add the outbound HTTP rule for the webserver NACL.
+        NACL_webserver_public.add_entry(
+            id = "Allow outbound HTTP traffic",
+            cidr = ec2.AclCidr.any_ipv4(), 
+            rule_number = 100,
+            traffic = ec2.AclTraffic.tcp_port(80),
+            direction = ec2.TrafficDirection.EGRESS,
+            rule_action = ec2.Action.ALLOW,
+        )
+
+        #This is where I add the inbound HHTPS rule for the webserver NACL.
+        NACL_webserver_public.add_entry(
+            id = "Allow HTTPS traffic",
+            cidr = ec2.AclCidr.any_ipv4(), 
+            rule_number = 110,
+            traffic = ec2.AclTraffic.tcp_port(443),
+            direction = ec2.TrafficDirection.INGRESS,
+            rule_action = ec2.Action.ALLOW,
+        )
+
+        #This is where I add the outbound HTTPS rule for the webserver NACL.
+        NACL_webserver_public.add_entry(
+            id = "Allow outbound HTTPS traffic",
+            cidr = ec2.AclCidr.any_ipv4(), 
+            rule_number = 110,
+            traffic = ec2.AclTraffic.tcp_port(443),
+            direction = ec2.TrafficDirection.EGRESS,
+            rule_action = ec2.Action.ALLOW,
+        )
+
+        #This is where I add the inbound Ephemeral rule for the webserver NACL.
+        NACL_webserver_public.add_entry(
             id = "Allow inbound Ephemeral traffic",
             cidr = ec2.AclCidr.any_ipv4(), 
             rule_number = 120,
@@ -221,7 +313,7 @@ class Project11Stack(Stack):
         )
 
         #This is where I add the outbound Ephemeral rule for the webserver NACL.
-        NACL_webserver.add_entry(
+        NACL_webserver_public.add_entry(
             id = "Allow outbound Ephemeral traffic",
             cidr = ec2.AclCidr.any_ipv4(), 
             rule_number = 120,
@@ -232,7 +324,7 @@ class Project11Stack(Stack):
         )
 
         #This is where I add the inbound SSH rule for the webserver NACL.
-        NACL_webserver.add_entry(
+        NACL_webserver_public.add_entry(
             id = "Allow inbound SSH traffic",
             cidr = ec2.AclCidr.any_ipv4(), 
             rule_number = 125,
@@ -414,6 +506,9 @@ class Project11Stack(Stack):
             instance_type=ec2.InstanceType("t2.micro"),
             machine_image=amzn_linux,
             vpc = vpc_webserver,
+            vpc_subnets = ec2.SubnetSelection(
+                subnet_type = ec2.SubnetType.PRIVATE_ISOLATED
+            ),
             user_data = userdata_webserver,
             security_group = SG_webserver,
             key_name = "project_1_0",
@@ -433,6 +528,9 @@ class Project11Stack(Stack):
             instance_type= ec2.InstanceType("t2.micro"),
             machine_image= Windows_AMI,
             vpc = vpc_managementserver,
+            vpc_subnets = ec2.SubnetSelection(
+                subnet_type = ec2.SubnetType.PUBLIC
+            ),
             security_group = SG_managementserver,
             key_name = "project_1_0",
             block_devices = [ec2.BlockDevice(
@@ -472,7 +570,7 @@ class Project11Stack(Stack):
             self, "Autoscalinggroup",
             vpc = vpc_webserver,
             vpc_subnets = ec2.SubnetSelection(
-                subnet_type = ec2.SubnetType.PRIVATE_ISOLATED),
+                subnet_type = ec2.SubnetType.PUBLIC),
             #launch_template = launch_template,
             #health_check = health_check,
             min_capacity = 1,
@@ -542,7 +640,6 @@ class Project11Stack(Stack):
         listener = alb.add_listener(
             "listener",
             port = 443,
-            #port = 80,
             open = True, 
             certificates = [certificate],
             ssl_policy = elbv2.SslPolicy.FORWARD_SECRECY_TLS12,
@@ -556,7 +653,9 @@ class Project11Stack(Stack):
             health_check = elbv2.HealthCheck(
                 port = "80",
                 enabled = True,
-            )
+            ),
+            stickiness_cookie_duration = Duration.minutes(5),
+            stickiness_cookie_name = "scn",
         )
         
         #This is where the scaling policy is defined. 
