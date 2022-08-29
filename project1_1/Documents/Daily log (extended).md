@@ -21,3 +21,21 @@ The first step I wanted to do, is to make sure that the webserver is deployed in
 23-08: Today I continued with fixing the gateway problem. After some troubleshooting I found out that the problem probably lies wiht the user data for the ASG which doenst launch a webserver. So I spend the whole morning to try to fix it, but I needed some help from Casper. After his help he nodded me in the direction of using a AMI from the working webserver. So now I will try do use it in that way. Another thing I want to try, is to add the user data to the ASG (I didn't using code) and change the order. Those things I will try tommorow. 
 
 24-08: Today I continued with fixing the code. After a collegue tested my code in the evening, she figured out that my user data is fine. She can deploy my code and it worked. So there must be a problem with my PC settings or certificate, because those are the only things I have to change on my own laptop, or the dir of the assets for the S3 bucket.  
+
+25-08: I continued with troubleshooting today and everybody helped. No one seems to find the right solution but we found out that the code also doens't work on the laptop of aurel, so we now know there is a fault in my code. We now have to figure out where it goes wrong.    
+
+26-08: I continue working with troubleshooting the code. Casper is also aware of the problem and is also looking at it right now. Today we are going to disect the code from working v1.0 and making seperate constructs. After that we will add everything from v1.1 to see where it goes wrong. At the end of the day, we split the entire code into smaller constructs, but it still isn't working. We even almost 1 on 1 copied the working code from Killian and it is still not working. Getting really frustrated now. After a loooooooong time of troubleshooting, it turned out the problem WAS the user data. 
+
+#!/bin/bash
+mkdir -p $(dirname '/tmp/webserver.sh')
+aws s3 cp 's3://postdeploymentscripts/webserver.sh' '/tmp/webserver.sh'
+set -e
+chmod +x '/tmp/webserver.sh'
+'/tmp/webserver.sh'
+mkdir -p $(dirname '/var/www/html/')
+aws s3 cp 's3://postdeploymentscripts/index.html' '/var/www/html/'
+chmod 755 -R /var/www/html/
+set -e
+chmod +x '/var/www/html/'
+'/var/www/html/'
+

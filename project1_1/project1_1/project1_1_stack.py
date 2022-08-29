@@ -483,7 +483,7 @@ class Project11Stack(Stack):
         userdata_webserver = ec2.UserData.for_linux()
         file_script_path = userdata_webserver.add_s3_download_command(
             bucket = Bucket,
-            bucket_key = "webserver.sh",            
+            bucket_key ="web_userdata.sh",            
         )
 
         userdata_webserver.add_execute_file_command(file_path = file_script_path) 
@@ -491,9 +491,9 @@ class Project11Stack(Stack):
         #This is where the index page is downloaded.
         userdata_webserver.add_s3_download_command(
             bucket = Bucket,
-            bucket_key = "index.html",
+            bucket_key ="index.html",
             #local_file = "/tmp/index.html",
-            local_file = "/var/www/html/",
+            local_file ="/var/www/html/",
         )
 
         userdata_webserver.add_commands("chmod 755 -R /var/www/html/")
@@ -584,16 +584,16 @@ class Project11Stack(Stack):
         #This is where all the user data is being added.
         asg_userdata = auto_scaling_group.user_data.add_s3_download_command(
             bucket = Bucket,
-            bucket_key = "webserver.sh", 
+            bucket_key ="web_userdata.sh", 
         )
 
         auto_scaling_group.user_data.add_execute_file_command(file_path = asg_userdata) 
 
         auto_scaling_group.user_data.add_s3_download_command(
             bucket = Bucket,
-            bucket_key = "index.html",
+            bucket_key ="index.html",
             #local_file = "/tmp/index.html",
-            local_file = "/var/www/html/",
+            local_file ="/var/www/html/",
         )
 
         auto_scaling_group.user_data.add_commands("chmod 755 -R /var/www/html/")
@@ -631,7 +631,7 @@ class Project11Stack(Stack):
         redirect = alb.add_redirect()
 
         #This is where the arn for the certificate is being called.
-        arn = "arn:aws:acm:eu-central-1:638158371293:certificate/2c9dfa7c-160e-4802-8004-8fd44d360fdf"
+        arn = "arn:aws:acm:eu-central-1:638158371293:certificate/b0022ab4-c81d-4578-b1d0-58797f1f2bfa"
 
         #This is where the certificate is being used.
         certificate = acm.Certificate.from_certificate_arn(self, "Certificate", arn)
@@ -700,4 +700,3 @@ class Project11Stack(Stack):
             delete_after = Duration.days(7),    
             )
         )
-        
