@@ -503,7 +503,7 @@ class Project11Stack(Stack):
         #This is where the webserver is deployed. 
         instance_webserver = ec2.Instance(
             self, "Webserver",
-            instance_type=ec2.InstanceType("t2.micro"),
+            instance_type=ec2.InstanceType("t3.nano"),
             machine_image=amzn_linux,
             vpc = vpc_webserver,
             vpc_subnets = ec2.SubnetSelection(
@@ -525,7 +525,7 @@ class Project11Stack(Stack):
         #This is where the managament server is deployed. 
         instance_managementserver = ec2.Instance(
             self, "Managementserver",
-            instance_type= ec2.InstanceType("t2.micro"),
+            instance_type= ec2.InstanceType("t3.nano"),
             machine_image= Windows_AMI,
             vpc = vpc_managementserver,
             vpc_subnets = ec2.SubnetSelection(
@@ -571,12 +571,10 @@ class Project11Stack(Stack):
             vpc = vpc_webserver,
             vpc_subnets = ec2.SubnetSelection(
                 subnet_type = ec2.SubnetType.PUBLIC),
-            #launch_template = launch_template,
-            #health_check = health_check,
             min_capacity = 1,
             max_capacity = 3,
             machine_image = amzn_linux,
-            instance_type = ec2.InstanceType("t2.micro"),
+            instance_type = ec2.InstanceType("t3.nano"),
             key_name = "project_1_0",
             security_group = SG_webserver,
         )
@@ -602,18 +600,6 @@ class Project11Stack(Stack):
 
         Bucket.grant_read(auto_scaling_group)
 
-        # #This is where the launch Template is being configured.
-        # launch_template = ec2.LaunchTemplate(
-        #     self, "Launchtemplate",
-        #     #block_devices =
-        #     instance_type = ec2.InstanceType("t2.micro"),
-        #     key_name = "project_1_0",
-        #     machine_image = amzn_linux,
-        #     #role =
-        #     security_group = SG_webserver, 
-        #     user_data = asg_userdata,
-         
-        # )
 
              ##############
         #### Load Balancer #####
@@ -624,7 +610,6 @@ class Project11Stack(Stack):
             self, "alb",
             vpc = vpc_webserver,
             internet_facing = True,
-            #security_group = 
         )
 
         #This is where the HTTP traffic is redirected to HTTPS traffic.

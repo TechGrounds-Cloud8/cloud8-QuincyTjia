@@ -26,16 +26,4 @@ The first step I wanted to do, is to make sure that the webserver is deployed in
 
 26-08: I continue working with troubleshooting the code. Casper is also aware of the problem and is also looking at it right now. Today we are going to disect the code from working v1.0 and making seperate constructs. After that we will add everything from v1.1 to see where it goes wrong. At the end of the day, we split the entire code into smaller constructs, but it still isn't working. We even almost 1 on 1 copied the working code from Killian and it is still not working. Getting really frustrated now. After a loooooooong time of troubleshooting, it turned out the problem WAS the user data. 
 
-#!/bin/bash
-mkdir -p $(dirname '/tmp/webserver.sh')
-aws s3 cp 's3://postdeploymentscripts/webserver.sh' '/tmp/webserver.sh'
-set -e
-chmod +x '/tmp/webserver.sh'
-'/tmp/webserver.sh'
-mkdir -p $(dirname '/var/www/html/')
-aws s3 cp 's3://postdeploymentscripts/index.html' '/var/www/html/'
-chmod 755 -R /var/www/html/
-set -e
-chmod +x '/var/www/html/'
-'/var/www/html/'
-
+29-08: After the weekend I continued with the code. Still couldn't figure out what the problem was. After a while we went to see the systemlogs of the ASG and we saw that there was a weird bug at the user data part. There was a line which said, can't find such file or directory and there stood ^M. We figured out that the user data was corrupt, so we deleted the file and made a new one and after that it worked. It turned out my code was working all the way!!! Very frustrated but also relieved. Now I only have to change some little things to the code, such as change instance types. The code is now completely working. Now I have to do the documentation and the architecture. 

@@ -1,5 +1,5 @@
 # Project version 1.1
-This is project 1.1 for the Cloud Engineering cohort of Techgrounds. During this project I had to make a existing AWS architecture with only using CDK. If I saw some improvements for the architecture, I was allowed to implement them. In the directory 'Documents', you can find all the deliverables for this project. There is also the Project itself and the requirements decribed. This README file will contain the necessary information on how to use the application and how to deploy it. 
+This is project 1.1 for the Cloud Engineering cohort of Techgrounds. During the first part of the project I had to make a existing AWS architecture with only using CDK. If I saw some improvements for the architecture, I was allowed to implement them. During the second part of the project, we only got some new requirements and we had to design everything ourselfs. In the directory 'Documents', you can find all the deliverables for this project. There is also the Project itself and the requirements decribed. This README file will contain the necessary information on how to use the application and how to deploy it. 
 
 ## Requirements
 Before you can start using the app, there are a few requirements which are needed.
@@ -10,12 +10,14 @@ Before you can start using the app, there are a few requirements which are neede
 - [Node.js installed](https://cdkworkshop.com/15-prerequisites/300-nodejs.html)
 - [AWS CDK Toolkit installed](https://cdkworkshop.com/15-prerequisites/500-toolkit.html)
 - [Setup CDK](https://cdkworkshop.com/30-python/20-create-project.html) 
+- [Create or import a certificate and import it in Amazon Certificate Manager](https://docs.aws.amazon.com/acm/latest/userguide/import-certificate.html)
 
 ## Before Use
 After the requirements are met, there are a few thing which need to be adjusted before the app can be used.
 
 - Go to your AWS account and generate a keypair and name it project_1_0. When you download you keypair, make sure that you store your keypair somewhere where you can remember it (you need to be in the same directory as the keypair when using the app). 
 - In the project1_0_stack.py, go to line 21 and change the value of the IP address to your own Public IP address.  
+- After adding the Certificate to the Manager, go to line 619 and replace the ARN of your uploaded certificate.
 - After these things are changed, use this command to deploy the app (make sure you are in the same directory as the app) : 
 ```
 cdk deploy

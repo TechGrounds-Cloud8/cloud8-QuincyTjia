@@ -11,7 +11,7 @@ I have made three AZ's for the web VPC. And the Admin instance is deployed in 1 
 
 ## Instances
 
-The types of instances I used are the one which are the default ones. 
+The types of instances I used are the t3.nano because these are the cheapest.
 
 ## Encryption
 
