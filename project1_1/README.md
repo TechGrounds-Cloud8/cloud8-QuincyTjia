@@ -57,6 +57,12 @@ You can find the IP addresses in the AWS managementconsole at the instances.
 ## Changing website
 If you want to change the website, you can go to the assets folder and change the index.html file. Note: This should be changed before you deploy the stack. 
 
+## Edit IP adress of administrator when deployed
+If you want to add or edit an administrator IP adress when you are already deployed, you can do that in the console. This is how you can do that:
+
+- When you are in the console, go to the EC2 service and go to the security groups page. There you can edit the inbound rules (chnage trusted IP).
+- You also have to change it at the VPC service, the NACL's. You can also edit the inbound rules over there.
+
 ## Closing the App
 If you want to destroy the app, you need to use the following command:
 ```
