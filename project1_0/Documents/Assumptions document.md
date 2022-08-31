@@ -7,11 +7,11 @@ In this document I will explain which assumptions I made and why.
 I assumed that the customers are from the same country as mine. Based on this I made some choices for region. 
 I choose to deploy my VPC's in the eu-central-1 region because that region is close to my own living place (latency). I could have chosen eu-west-1 which is also quite close by and is cheaper for EC2 usage, but I remained by my decision to use the Frankfurt region because I think latency is important for now.
 
-I have made two AZ's per VPC, but all the instances are deployed in AZ a. I choose for this because in my opinion it isn't necessary to deploy it in two different AZ's. If a AZ would have a downtime, you cannot login or use the webserver. So I choose to deploy everything in one AZ. 
+The webserver is deployed in AZ-a, and the ASG is deployed in AZ-a but could also be deployed in b and c when there is a high load. The managmenet sever is deployed in AZ-a.
 
 ## Instances
 
-The types of instances I used are the one which are the default ones. 
+The types of instances I used are the t3.nano.
 
 ## Encryption
 
