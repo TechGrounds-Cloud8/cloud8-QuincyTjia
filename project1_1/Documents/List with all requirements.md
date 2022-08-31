@@ -3,7 +3,7 @@ This document contains a list with a clear point by point description of the req
 
 Requirements:
 
-1. All the VM disks must be encrypted.
+1. [All the VM disks must be encrypted.](![REQ1] (../../00_includes/v1_1_encrypted.png)) 
 2. The webserver must have a daily backup. The backups have to be kept for 7 days.
 3. The webserver must be automatically installed.
 4. The admin/management server must be reachable with a public IP.
